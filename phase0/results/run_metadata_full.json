@@ -1,0 +1,11 @@
+{
+  "mode": "full",
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "n_personas": 1027,
+  "n_samples_per_persona": 5,
+  "total_attempts": 5135,
+  "errors": 0,
+  "parse_failed": 0,
+  "success_rate": 100.0
+}
