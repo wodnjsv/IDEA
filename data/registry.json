@@ -1,0 +1,30 @@
+{
+  "note": "ISS-002 데이터 레지스트리. 경로는 IDEA_DATA_DIR(기본 repo_root/data) 상대. sha256은 data_manifest.md와 동일.",
+  "datasets": {
+    "census_2020_2pct_person": {
+      "path": "raw/2020_2%_표본_인구_20260722_42797.csv",
+      "sha256": "4abc928fd9171bb18dc5085d3ca67e0da1287af329c0f8f069f882b6e56e5218",
+      "encoding": "cp949", "rows": 926967, "source": "MDIS 인구주택총조사 2020 2% 표본 인구사항"
+    },
+    "census_2020_2pct_household": {
+      "path": "raw/2020_2%_표본_가구주택_20260722_19209.csv",
+      "sha256": "45d7d1baaf6428de4c12fb508bd1fefbcdc6e1c5180889deb3f7948c4dfee74b",
+      "encoding": "cp949", "rows": 418594, "source": "MDIS 인구주택총조사 2020 2% 표본 가구주택사항"
+    },
+    "laf_2025h1_a": {
+      "path": "raw/2025_상반기(A형_시군구_대분류)(2021~)_20260722_70170.csv",
+      "sha256": "bd5a02340acb90ca32e3d14bf1a0e55d7b5c79219241777ce36b1a537ce7783d",
+      "encoding": "cp949", "rows": 403875, "source": "MDIS 지역별고용조사 2025 상반기 A형(시군구·대분류)"
+    },
+    "sflc_2025_master": {
+      "path": "raw/2025_가구마스터_20260722_32595.csv",
+      "sha256": "ebe808a09b6f05176531ce3d4434d01d2d70050f982618231db67a96c1f15f1b",
+      "encoding": "cp949", "rows": 18664, "source": "MDIS 가계금융복지조사 2025 가구마스터(공공용)"
+    },
+    "kgss_cum_2003_2025": {
+      "path": "raw/kor_data_CUM0074_V2.sav",
+      "sha256": "48c5ca4b4838fc11f4055d8867aafcc94c418359f5de0fecf01ab6b6b4226b95",
+      "format": "spss", "cases": 23282, "source": "KOSSDA 한국종합사회조사 2003-2025 누적자료 V2"
+    }
+  }
+}
