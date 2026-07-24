@@ -13,6 +13,11 @@ GT = json.load(open(ROOT / "phase0" / "data" / "ground_truth_2025.json", encodin
 CANDS = GT["candidates"]
 OUT = ROOT / "data" / "t3"
 PHASE0_VALID = {"더불어민주당 이재명": 70.42, "국민의힘 김문수": 29.58, "개혁신당 이준석": 0.0}
+SIDO_FULL = {"서울": "서울특별시", "부산": "부산광역시", "대구": "대구광역시", "인천": "인천광역시",
+             "광주": "광주광역시", "대전": "대전광역시", "울산": "울산광역시", "세종": "세종특별자치시",
+             "경기": "경기도", "강원": "강원특별자치도", "충북": "충청북도", "충남": "충청남도",
+             "전북": "전북특별자치도", "전남": "전라남도", "경북": "경상북도", "경남": "경상남도",
+             "제주": "제주특별자치도"}  # 뱅크 축약명 → 정답지 풀네임 (AUDIT: 이름 매칭 버그 수정)
 
 
 def parse(text):
@@ -74,7 +79,7 @@ def score_arm(path):
     # 시도 1위 적중 (가중)
     hit = tot = 0
     for sd, v in sido_votes.items():
-        gt_sd = GT["sido_pct"].get(sd)
+        gt_sd = GT["sido_pct"].get(SIDO_FULL.get(sd, sd))
         if not gt_sd:
             continue
         tot += 1
