@@ -69,6 +69,8 @@ def build_wage_table(laf: pd.DataFrame, from_h=None):
     for _, r in laf.iterrows():
         if not r["wage"] or float(r["wage"]) <= 0:
             continue
+        if int(r["age"]) < 18:   # AUDIT-2026-07-23 C: 15~17세 오염 차단 (표적 모집단 = 성인)
+            continue
         rows.append({
             "sgg": str(r["sgg4"]), "sido": str(r["sgg4"])[:2],
             "age_g": age_band(int(r["age"])), "sex": str(int(float(r["sex"]))),
