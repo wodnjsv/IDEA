@@ -7,3 +7,4 @@ API.txt
 venv/
 data/raw/
 docs/4_참고자료/데이터/*2003-2025*
+.gstack/
