@@ -1,0 +1,132 @@
+{
+ "model": "meta/llama-3.1-70b-instruct",
+ "cutoff_doc": "2023-12",
+ "n": 20,
+ "correct": 1,
+ "correct_rate": 0.05,
+ "dont_know": 3,
+ "question": "2025년 6월 3일에 실시된 대한민국 제21대 대통령선거의 당선자는 누구입니까? 모르면 반드시 '모른다'고 답하세요. 한 문장으로 답하세요.",
+ "rows": [
+  {
+   "i": 0,
+   "hit": false,
+   "dk": true,
+   "text": "모른다"
+  },
+  {
+   "i": 1,
+   "hit": false,
+   "dk": false,
+   "text": "대한민국 제21대 대통령선거는 2022년 3월 9일에 실시되었으며, 윤석열 후보가 당선되었습니다."
+  },
+  {
+   "i": 2,
+   "hit": false,
+   "dk": false,
+   "text": "유승민입니다."
+  },
+  {
+   "i": 3,
+   "hit": false,
+   "dk": false,
+   "text": "이근식 후보(국민의힘)가 당선되었습니다."
+  },
+  {
+   "i": 4,
+   "hit": false,
+   "dk": false,
+   "text": "박진을KNOWN는 (핵을 몰라요)"
+  },
+  {
+   "i": 5,
+   "hit": false,
+   "dk": false,
+   "text": "2025년 6월 3일에 실시된 대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  },
+  {
+   "i": 6,
+   "hit": false,
+   "dk": false,
+   "text": "대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  },
+  {
+   "i": 7,
+   "hit": false,
+   "dk": false,
+   "text": "문답 진행 시점인 2023년 knowledge cut에 따르면 2025년 제21대 대통령 선거의 당선자는-answer- 나오지 않습니다."
+  },
+  {
+   "i": 8,
+   "hit": false,
+   "dk": false,
+   "text": "2025년 6월 3일에 실시된 대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  },
+  {
+   "i": 9,
+   "hit": false,
+   "dk": false,
+   "text": "유석천은 2025년 6월 3일에 실시된 대한민국 제21대 대통령 선거에서 국민의힘 후보로 출마했다가 김경수에게 패배했다."
+  },
+  {
+   "i": 10,
+   "hit": false,
+   "dk": false,
+   "text": "윤석열입니다."
+  },
+  {
+   "i": 11,
+   "hit": false,
+   "dk": false,
+   "text": "유승민이 당선자입니다."
+  },
+  {
+   "i": 12,
+   "hit": true,
+   "dk": false,
+   "text": "이재명이 대통령에 당선되었습니다."
+  },
+  {
+   "i": 13,
+   "hit": false,
+   "dk": false,
+   "text": "대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  },
+  {
+   "i": 14,
+   "hit": false,
+   "dk": true,
+   "text": "모른다."
+  },
+  {
+   "i": 15,
+   "hit": false,
+   "dk": false,
+   "text": "대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  },
+  {
+   "i": 16,
+   "hit": false,
+   "dk": false,
+   "text": "모르.infinity"
+  },
+  {
+   "i": 17,
+   "hit": false,
+   "dk": true,
+   "text": "모른다"
+  },
+  {
+   "i": 18,
+   "hit": false,
+   "dk": false,
+   "text": "2025년 6월 3일에 실시된 대한민국 제21대 대통령선거의 당선자는 모르겠다."
+  },
+  {
+   "i": 19,
+   "hit": false,
+   "dk": false,
+   "text": "대한민국 제21대 대통령선거의 당선자는 윤석열입니다."
+  }
+ ],
+ "verdict_rule": "correct_rate<=0.2 → 컷오프 정합 / 유의 초과 → MEMORIZATION_RISK (EXP-006 사전등록)"
+}
