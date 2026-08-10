@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IDEA 정확도 리포트 — 21대 대통령선거 재현</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   IDEA 디자인 시스템 v1 — 반복 1
+   정본: DESIGN.md · DESIGN_SOUL.md · 채점표: REVIEW_RUBRIC.md
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  /* ── 색 (전량 validate_palette.js 통과, DESIGN.md §3.2) ── */
+  --paper:#FCFCFB; --plane:#F5F4F1;
+  --ink-1:#0B0B0B; --ink-2:#52514E; --rule:#5F5D57;
+  --stat-deny:#A32A1C;      /* 인용 금지 */
+  --stat-undet:#5B3F9E;     /* 판정 불가 */
+  /* 데이터에는 색이 없다. categorical 팔레트가 존재하지 않는다. */
+
+  /* ── 간격 ── */
+  --u:0.25rem;
+  --stroke:2px;
+
+  /* ── 타입 스케일 (문서 모드 = rem, WCAG 1.4.4 준수)
+        17px 기준: Pretendard 한글 광학 크기가 맑은 고딕보다 7.4% 작다(계측) ── */
+  font-size:17px;
+  --t-verdict:1.76rem; --t-title:1.59rem; --t-estimate:1.24rem;
+  --t-def:1.00rem; --t-legal:1.00rem; --t-table:0.88rem; --t-prov:0.76rem;
+
+  /* 한글 세리프 없음 — 명조 가로획이 17px에서 0.47~0.57px로 프로젝터에서 소멸(계측).
+     Segoe UI가 Malgun Gothic 앞: 맑은 고딕에 U+2212가 없다. */
+  --font-sans:"Pretendard Variable",Pretendard,-apple-system,"Segoe UI",
+              "Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+}
+
+/* 발표 모드 — root font-size 스위치 한 줄 */
+body.presenting{ font-size:20px; }
+body.presenting *{ transition-duration:0ms !important; }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper); color:var(--ink-1);
+  font-family:var(--font-sans);
+  word-break:keep-all;            /* 한국어 UI 필수 — 고정 문자열이 음절에서 안 끊김 */
+  overflow-wrap:break-word;
+  line-height:1.45;
+  padding-bottom:calc(24*var(--u));
+}
+.wrap{max-width:min(1600px,94vw);margin:0 auto;padding:0 calc(6*var(--u))}
+
+/* ── 머리띠 ── */
+.band{
+  background:var(--ink-1);color:var(--paper);
+  padding:calc(2*var(--u)) 0;margin-bottom:calc(8*var(--u));
+}
+.band .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:calc(4*var(--u));flex-wrap:wrap}
+.wordmark{font-weight:700;letter-spacing:.06em;font-size:var(--t-table)}
+.band .meta{font-size:var(--t-prov);font-variant-numeric:tabular-nums;opacity:.92}
+
+/* ── 표제 원자 (표제 + 정의문 = 1u, 페이지 최소 간격) ── */
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(6*var(--u));flex-wrap:wrap}
+h1{font-size:var(--t-title);font-weight:700;line-height:1.30;flex:1 1 30ch}
+/* 저자 표시 = 괘선. 세리프가 지던 역할을 폰트 비의존 채널로 옮겼다.
+   좌측 괘선이 붙은 문장은 사람이 쓴 것이고, 파이프라인 값에는 붙지 않는다. */
+.def{
+  font-size:var(--t-def);font-weight:400;
+  line-height:1.60;                /* KRDS 150% 하한 초과. 라틴 1.29 직수입 금지 */
+  margin-top:calc(2*var(--u));max-width:74ch;
+  border-left:3px solid var(--ink-1);padding-left:calc(3*var(--u));
+}
+.rule{border:0;border-top:var(--stroke) solid var(--ink-1);margin:calc(6*var(--u)) 0}
+.rule-thin{border:0;border-top:var(--stroke) solid var(--rule);margin:calc(4*var(--u)) 0}
+
+/* ── StatusLabel — 5종 고정 ── */
+.status{
+  display:inline-flex;align-items:center;gap:calc(2*var(--u));
+  border:var(--stroke) solid var(--st,var(--ink-1));
+  background:var(--paper);            /* 색면 채움 없음 */
+  padding:calc(1.5*var(--u)) calc(3*var(--u));
+  font-size:var(--t-estimate);font-weight:700;
+  color:var(--ink-1);                 /* 상태 색이 텍스트에 절대 적용되지 않음 */
+  line-height:1.15;white-space:nowrap;
+}
+.status svg{flex:none;stroke:var(--st,var(--ink-1));fill:none;stroke-width:2}
+.status .card{font-size:var(--t-prov);font-weight:400;color:var(--ink-2);
+  border-left:var(--stroke) solid var(--rule);padding-left:calc(2*var(--u))}
+.st-deny{--st:var(--stat-deny)}
+.st-undet{--st:var(--stat-undet)}
+.st-sealed{--st:var(--ink-1)}      /* 봉인 백테스트는 허가가 아니다 → 색 없음 */
+
+/* ── VerdictLine — 2상태, 페이지 최대 활자, 숫자 아님 ── */
+.verdict{
+  display:flex;gap:calc(4*var(--u));align-items:flex-start;
+  border-left:calc(6*var(--u)) solid var(--stat-deny);
+  padding:calc(3*var(--u)) 0 calc(3*var(--u)) calc(4*var(--u));
+  font-size:var(--t-verdict);font-weight:700;line-height:1.15;
+}
+
+/* ── GateStrip ── */
+.gate{
+  border-top:var(--stroke) solid var(--ink-1);border-bottom:var(--stroke) solid var(--ink-1);
+  padding:calc(4*var(--u)) 0;margin:calc(6*var(--u)) 0;
+  display:flex;gap:calc(5*var(--u));flex-wrap:wrap;align-items:baseline;
+  font-size:var(--t-table);font-weight:600;font-variant-numeric:tabular-nums;
+}
+.gate .sep{color:var(--rule)}
+.gate .fail{color:var(--ink-1);border-bottom:var(--stroke) solid var(--stat-deny)}
+
+/* ── Estimate — 4슬롯 계약 ── */
+.est{
+  display:grid;grid-template-columns:28% 14% 44% 14%;
+  gap:calc(3*var(--u));align-items:baseline;
+  padding:calc(4*var(--u)) 0;
+}
+.est .e-label{font-size:var(--t-table);color:var(--ink-1)}
+/* value·interval·status 크기비 1.0 — 개별 px 지정 불가 */
+.est .e-value{font-size:var(--t-estimate);font-weight:600;white-space:nowrap;
+  font-variant-numeric:proportional-nums} /* 단독 큰 값은 비례숫자 */
+.est .e-int{font-size:var(--t-estimate);font-weight:500}
+.est .e-int .kindlab{display:block;font-size:var(--t-prov);font-weight:400;color:var(--ink-2);margin-top:calc(1*var(--u))}
+.est .e-status{font-size:var(--t-estimate)}
+/* 2차 방어선 — 숨기지 않고 드러낸다(fail-loud) */
+.est:not(:has(.e-int:not(:empty))){outline:var(--stroke) solid var(--stat-deny);outline-offset:4px}
+
+/* ── ProvenanceStrip — KOSIS 리더닷 ── */
+.prov{font-size:var(--t-prov);line-height:1.5;font-variant-numeric:tabular-nums;margin-top:calc(3*var(--u))}
+.prov dl{display:grid;grid-template-columns:max-content 1fr;gap:calc(1*var(--u)) calc(2*var(--u))}
+.prov dt{color:var(--ink-2);white-space:nowrap}
+.prov dt::after{content:" ";display:inline-block;width:0}
+.prov dd{color:var(--ink-1);position:relative;padding-left:calc(2*var(--u))}
+.prov dd::before{content:"";position:absolute;left:0;top:.75em;width:calc(1*var(--u));
+  border-top:1px dotted var(--rule)}
+.prov .miss{color:var(--stat-deny);font-weight:700}
+
+/* ── 섹션 ── */
+section{margin:calc(12*var(--u)) 0}
+h2{font-size:var(--t-estimate);font-weight:700;margin-bottom:calc(1*var(--u))}
+h2 + .def{font-size:var(--t-table);line-height:1.55;color:var(--ink-1)}
+.card{margin-top:calc(5*var(--u))}
+
+/* 차트 카드마다 반복되는 고지 축약 — ISS-021 A1 */
+.crop-notice{
+  font-size:var(--t-prov);font-weight:700;color:var(--ink-1);
+  border-top:1px solid var(--rule);margin-top:calc(3*var(--u));padding-top:calc(1.5*var(--u));
+}
+
+/* ── 차트/표 토글 (tableTwin) ── */
+.twin{display:flex;gap:calc(2*var(--u));margin-bottom:calc(3*var(--u))}
+.twin button{
+  font:inherit;font-size:var(--t-table);font-family:var(--font-sans);
+  background:var(--paper);color:var(--ink-1);
+  border:var(--stroke) solid var(--ink-1);
+  padding:calc(1.5*var(--u)) calc(3*var(--u));cursor:pointer;
+}
+.twin button[aria-pressed="true"]{background:var(--ink-1);color:var(--paper)}
+.twin button:focus-visible{outline:3px solid var(--ink-1);outline-offset:2px}
+
+/* ── 표 ── */
+table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:var(--t-table);font-variant-numeric:tabular-nums}
+caption{text-align:left;font-size:var(--t-table);color:var(--ink-2);margin-bottom:calc(2*var(--u))}
+th,td{padding:calc(3*var(--u)) calc(3*var(--u)) calc(3*var(--u)) 0;text-align:right;vertical-align:baseline}
+th:first-child,td:first-child{text-align:left}
+thead th{border-bottom:var(--stroke) solid var(--ink-1);font-weight:700}
+tbody tr + tr td{border-top:1px solid #E6E5E1}
+tfoot td{border-top:var(--stroke) solid var(--ink-1);font-weight:700}
+td.untested{border-left:var(--stroke) solid var(--stat-undet);padding-left:calc(2*var(--u));
+  font-weight:700}
+/* table-layout:fixed는 폴백 시 한글 15.7% 확장으로 열이 움직이는 것을 막는다.
+   대신 열 폭을 명시해야 균등 분할 회귀가 안 생긴다. */
+table.t-ab th:first-child,table.t-ab td:first-child{width:20%}
+table.t-ab th:nth-child(n+2),table.t-ab td:nth-child(n+2){width:13.33%}
+table.t-limit th:first-child,table.t-limit td:first-child{width:32%}
+table.t-limit th:nth-child(2),table.t-limit td:nth-child(2){width:46%}
+table.t-limit th:nth-child(3),table.t-limit td:nth-child(3){width:22%}
+table.t-dec th:first-child,table.t-dec td:first-child{width:28%}
+.note{font-size:var(--t-prov);color:var(--ink-2);margin-top:calc(3*var(--u));line-height:1.5}
+
+/* ── SVG 마크 ── */
+svg.chart{display:block;width:100%;height:auto;overflow:visible}
+svg.chart text{font-family:var(--font-sans);fill:var(--ink-1)}
+.tick{font-size:13px;fill:var(--ink-2)}
+.dlabel{font-size:15px;font-weight:600}
+.axis{stroke:var(--ink-1);stroke-width:2}
+.gridless{stroke:var(--rule);stroke-width:2;stroke-dasharray:4 4} /* 게이트 임계 전용 점선 */
+
+/* ── 푸터 ── */
+footer{border-top:var(--stroke) solid var(--ink-1);margin-top:calc(12*var(--u));padding-top:calc(4*var(--u))}
+.footrow{display:flex;justify-content:space-between;gap:calc(6*var(--u));flex-wrap:wrap;align-items:flex-end}
+.legal{font-size:var(--t-legal);font-weight:700;line-height:1.4;max-width:60ch}
+.legal .sub{font-size:var(--t-prov);font-weight:400;color:var(--ink-2);margin-top:calc(1*var(--u))}
+.export{display:flex;gap:calc(2*var(--u));flex-wrap:wrap}
+.export button{
+  font:inherit;font-size:var(--t-table);font-family:var(--font-sans);
+  background:var(--paper);color:var(--ink-1);border:var(--stroke) solid var(--ink-1);
+  padding:calc(2*var(--u)) calc(3*var(--u));cursor:pointer;white-space:nowrap;
+}
+.export button:focus-visible{outline:3px solid var(--ink-1);outline-offset:2px}
+
+/* ── 접근성 / 모션 ── */
+:focus-visible{outline:3px solid var(--ink-1);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ── 인쇄: @page 마진 박스만이 전 페이지 반복을 만든다 ── */
+@page{
+  size:A4; margin:16mm 14mm 20mm;
+  @bottom-center{
+    content:"내부 자문·방법론 검증용 · 대외 공표 금지 (공직선거법 §108조의2) — IDEA / EXP-004 / 개발 지표";
+    font-size:8pt; font-family:sans-serif;
+  }
+  @bottom-right{ content:counter(page) " / " counter(pages); font-size:8pt }
+}
+@media print{
+  :root{font-size:11pt}
+  body{padding:0;background:#fff}
+  .wrap{max-width:none;padding:0}
+  .band{background:#fff;color:#000;border-bottom:1pt solid #000}
+  .export,.twin{display:none}
+  .twin-panel[hidden]{display:block!important} /* 인쇄엔 표도 함께 */
+  section{break-inside:avoid}
+  svg.chart{break-inside:avoid}
+}
+@media (forced-colors:active){
+  .status{forced-color-adjust:none;border-color:CanvasText}
+}
+</style>
+</head>
+<body>
+
+<!-- ①  머리띠 -->
+<div class="band"><div class="wrap">
+  <span class="wordmark">IDEA</span>
+  <span class="meta">리포트 idea/report/EXP-004 · 생성 2026-08-06 · 개발 지표</span>
+</div></div>
+
+<div class="wrap">
+
+<!-- ②  표제 원자 + status 스탬프 -->
+<div class="head">
+  <div>
+    <h1>정확도 리포트 — 21대 대통령선거 재현</h1>
+    <p class="def">이 수치는 공공데이터로 합성한 가상 인구 1,000명의 응답 분포에서 산출한 <strong>시뮬레이션 값</strong>이며, 실제 여론조사 결과가 아닙니다. 채점 대상은 이미 개표가 끝난 2025년 6월 3일 선거이고, 보정에 반복 사용하는 <strong>개발셋</strong>이므로 이 리포트의 어떤 수치도 성과로 대외 인용할 수 없습니다.</p>
+  </div>
+  <span class="status st-deny">
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="4.3" y1="15.7" x2="15.7" y2="4.3"/></svg>
+    개발 지표 <span class="card">AGENTS 홀드아웃 규율</span>
+  </span>
+</div>
+
+<hr class="rule">
+
+<!-- ③  판정 줄 — 페이지 최대 활자, 숫자가 아니다 -->
+<p class="verdict">대외 인용 불가 · 잔여 편향이 게이트를 넘지 못했고 표집 구간이 산출되지 않았다</p>
+
+<!-- ④  게이트 스트립 -->
+<div class="gate">
+  <span>W10 게이트 ≤5.0%p</span>
+  <span class="sep">┊</span>
+  <span>현재 9.07%p <span style="font-weight:400;color:var(--ink-2)">(EXP-004 잔여 편향)</span></span>
+  <span class="sep">┊</span>
+  <span class="fail">미달 — 4.07%p 초과</span>
+</div>
+
+<!-- ⑤  본문 -->
+
+<!-- 5-1  잔여 편향 (Estimate 4슬롯 실례) -->
+<section>
+  <h2>지금 남아 있는 오차</h2>
+  <p class="def">위생 수리를 끝낸 뒤에도 남은 편향이다. 방향이 있는 계통 오차이므로 ±로 적을 수 없다.</p>
+
+  <div class="card">
+    <div class="est">
+      <span class="e-label">잔여 편향<br><span style="color:var(--ink-2)">이재명 유효표 %, 전국 가중</span></span>
+      <span class="e-value">+9.07%p ⊘</span>
+      <span class="e-int">
+        <svg viewBox="0 0 320 26" width="100%" height="26" role="img" aria-label="계통 편향, 과대 방향, 9.07퍼센트포인트">
+          <line x1="8" y1="13" x2="292" y2="13" stroke="#0B0B0B" stroke-width="3"/>
+          <circle cx="8" cy="13" r="9" fill="none" stroke="#0B0B0B" stroke-width="2"/>
+          <circle cx="292" cy="13" r="9" fill="#0B0B0B"/>
+          <path d="M292 13 L276 6 L276 20 Z" fill="#0B0B0B"/>
+        </svg>
+        <span class="kindlab">계통 편향 · <strong>과대</strong> · 방향 있음 — 대칭 구간(±)이 아니다</span>
+      </span>
+      <span class="e-status"><span class="status st-deny">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="4.3" y1="15.7" x2="15.7" y2="4.3"/></svg>개발 지표</span></span>
+    </div>
+
+    <div class="est">
+      <span class="e-label">표집 구간<br><span style="color:var(--ink-2)">위 추정치의 정밀도</span></span>
+      <span class="e-value">미산출</span>
+      <span class="e-int">
+        <span style="font-weight:700">마크 없음</span>
+        <span class="kindlab">MDE 표가 아직 작성되지 않았다 (ISS-011). 구간을 그리면 없는 정밀도를 지어내는 것이 된다.</span>
+      </span>
+      <span class="e-status"><span class="status st-undet">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14"/></svg>미검정 (부족 표본)</span></span>
+    </div>
+
+    <div class="prov">
+      <dl>
+        <dt>산출 근거</dt><dd>gpt-4o-mini-2024-07-18 (컷오프 2023-10)</dd>
+        <dt>표본</dt><dd>n = 1,000 페르소나 × k = 5 반복 &nbsp;<span style="color:var(--ink-2)">— 곱해서 읽지 말 것</span></dd>
+        <dt>가중</dt><dd>weight_bank v1 (EXP-003: 전국 가중마진 최대 1.09%p · 시도 0.0%p · 전 시도 n ≥ 200)</dd>
+        <dt>실험</dt><dd>EXP-004 T3 위생 · temperature 1.0 · 실비용 $0.78</dd>
+        <dt>컷오프 게이트</dt><dd>2023-10 &lt; 선거일 2025-06-03 → 통과</dd>
+        <dt>표집 구간</dt><dd class="miss">— (미산출 · ISS-011 MDE 표 미작성)</dd>
+      </dl>
+    </div>
+    <p class="crop-notice">내부 자문·방법론 검증용 · 대외 공표 금지 (§108조의2) · 개발 지표 · EXP-004</p>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- 5-2  오차 분해 -->
+<section>
+  <h2>21%p는 어디서 왔고 무엇이 남았나</h2>
+  <p class="def">출발 편향 +21.00%p를 네 성분으로 갈랐다. 속이 빈 막대는 제거된 것, 꽉 찬 막대는 남은 것이다. 범례 없이 읽힌다.</p>
+
+  <div class="card">
+    <div class="twin" role="group" aria-label="표시 형식">
+      <button type="button" aria-pressed="true" data-twin="d1" data-view="chart">차트</button>
+      <button type="button" aria-pressed="false" data-twin="d1" data-view="table">표</button>
+    </div>
+
+    <div class="twin-panel" data-twin="d1" data-view="chart">
+      <!-- 탭 스톱 기하학: 라벨 0–240 · 값 250–370 · 마크 390–890 (0선 x=545, 14px/%p) -->
+      <svg class="chart" viewBox="0 0 900 300" role="img"
+           aria-label="오차 분해 폭포. 출발 편향 21.00, 소스 교체 마이너스 1.22, 자책골 제거 마이너스 11.05, 강제선택 플러스 0.34, 잔여 편향 9.07 퍼센트포인트.">
+        <line class="axis" x1="545" y1="8" x2="545" y2="250"/>
+        <!-- 게이트 임계 5.0%p — 화면 유일의 점선 -->
+        <line class="gridless" x1="615" y1="8" x2="615" y2="266"/>
+        <text class="tick" x="615" y="280" text-anchor="middle">게이트 5.0%p</text>
+
+        <!-- 출발 +21.00 · solid -->
+        <text class="tick"   x="240" y="34" text-anchor="end">EXP-001 출발 편향</text>
+        <text class="dlabel" x="370" y="34" text-anchor="end">+21.00%p</text>
+        <rect x="545" y="18" width="294" height="22" rx="4" fill="#0B0B0B"/>
+
+        <!-- 소스 교체 −1.22 · hollow -->
+        <text class="tick"   x="240" y="74" text-anchor="end">소스 교체</text>
+        <text class="dlabel" x="370" y="74" text-anchor="end">−1.22%p</text>
+        <rect x="527.9" y="58" width="17.1" height="22" rx="4" fill="none" stroke="#0B0B0B" stroke-width="2"/>
+
+        <!-- 자책골 −11.05 · hollow -->
+        <text class="tick"   x="240" y="114" text-anchor="end">자책골 제거</text>
+        <text class="dlabel" x="370" y="114" text-anchor="end">−11.05%p</text>
+        <rect x="390.3" y="98" width="154.7" height="22" rx="4" fill="none" stroke="#0B0B0B" stroke-width="2"/>
+
+        <!-- 강제선택 +0.34 · solid -->
+        <text class="tick"   x="240" y="154" text-anchor="end">강제선택 (DK 도입)</text>
+        <text class="dlabel" x="370" y="154" text-anchor="end">+0.34%p</text>
+        <rect x="545" y="138" width="4.8" height="22" rx="2" fill="#0B0B0B"/>
+
+        <line x1="0" y1="180" x2="890" y2="180" stroke="#0B0B0B" stroke-width="2"/>
+
+        <!-- 잔여 +9.07 · solid -->
+        <text class="tick"   x="240" y="212" text-anchor="end">잔여 편향</text>
+        <text class="dlabel" x="370" y="212" text-anchor="end">+9.07%p</text>
+        <rect x="545" y="196" width="127" height="22" rx="4" fill="#0B0B0B"/>
+        <text class="tick"   x="240" y="234" text-anchor="end">구간</text>
+        <text class="tick"   x="370" y="234" text-anchor="end">미산출</text>
+        <text class="tick"   x="545" y="234">EXP-004에 성분별 CI 없음 · □ 미검정</text>
+      </svg>
+    </div>
+
+    <div class="twin-panel" data-twin="d1" data-view="table" hidden>
+      <table class="t-dec">
+        <caption>EXP-004 오차 분해 — 이재명 유효표 %, weight_bank 가중</caption>
+        <thead><tr><th scope="col">성분</th><th scope="col">시뮬 값</th><th scope="col">기여</th><th scope="col">구간</th><th scope="col">상태</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">phase0 원판</th><td>70.42</td><td>+21.00</td><td class="untested">미산출</td><td>개발 지표</td></tr>
+          <tr><th scope="row">A암 · 소스 교체</th><td>69.20</td><td>−1.22</td><td class="untested">미산출</td><td>개발 지표</td></tr>
+          <tr><th scope="row">B암 · 자책골 제거</th><td>58.15</td><td>−11.05</td><td class="untested">미산출</td><td>개발 지표</td></tr>
+          <tr><th scope="row">C암 · 강제선택 완화</th><td>58.49</td><td>+0.34</td><td class="untested">미산출</td><td>개발 지표</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><th scope="row">실제 개표</th><td>49.42</td><td>—</td><td>—</td><td>정답지</td></tr>
+          <tr><th scope="row">잔여 편향</th><td>—</td><td>+9.07</td><td class="untested">미산출</td><td>개발 지표</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p class="note">
+      분해 검산: <span style="font-variant-numeric:tabular-nums">+21.00 − 1.22 − 11.05 + 0.34 = +9.07</span> — 차이 0.000. 분해가 닫힌다.<br>
+      성분별 신뢰구간은 EXP-004에서 산출되지 않았다. 항목을 숨기지 않고 <strong>미검정</strong>으로 남긴다.
+    </p>
+    <p class="crop-notice">내부 자문·방법론 검증용 · 대외 공표 금지 (§108조의2) · 개발 지표 · EXP-004</p>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- 5-3  사양 민감도 -->
+<section>
+  <h2>프롬프트 문구만 바꿨을 때</h2>
+  <p class="def">페르소나도 표본도 모델도 그대로 두고 카드층 서술만 교체했다. 결과의 승자가 뒤집혔다. 이 제품이 파는 것이 조건 민감도이므로, 그 민감도가 프롬프트 표면 형식에 얼마나 취약한지가 곧 상품의 한계선이다.</p>
+
+  <div class="card">
+    <!-- 같은 탭 스톱: 라벨 0–240 · 값 250–370 · 마크 390–890 (축 −50..+50, 0선 x=640, 5px/%p) -->
+    <svg class="chart" viewBox="0 0 900 210" role="img"
+         aria-label="사양 민감도. 카드층 없음(B암) 1·2위 마진 플러스 27.55, 카드층 있음(D암) 마이너스 38.24 퍼센트포인트. 부호가 뒤집혀 승자가 역전됐고 이동 폭은 65.79 퍼센트포인트.">
+      <line class="axis" x1="640" y1="18" x2="640" y2="132"/>
+      <line x1="390" y1="150" x2="890" y2="150" stroke="#5F5D57" stroke-width="2"/>
+      <text class="tick" x="390" y="170">−50%p</text>
+      <text class="tick" x="640" y="170" text-anchor="middle">0</text>
+      <text class="tick" x="890" y="170" text-anchor="end">+50%p</text>
+
+      <!-- B암 +27.55 · hollow -->
+      <text class="tick"   x="240" y="46" text-anchor="end">카드층 없음 (B암)</text>
+      <text class="dlabel" x="370" y="46" text-anchor="end">+27.55%p</text>
+      <circle cx="777.8" cy="40" r="11" fill="none" stroke="#0B0B0B" stroke-width="2"/>
+
+      <!-- 이동 화살표 -->
+      <line x1="777.8" y1="40" x2="448.8" y2="110" stroke="#0B0B0B" stroke-width="3"/>
+      <path d="M448.8 110 L468 102 L466 116 Z" fill="#0B0B0B"/>
+      <text class="tick" x="620" y="88" text-anchor="middle">이동 65.79%p</text>
+
+      <!-- D암 −38.24 · solid -->
+      <text class="tick"   x="240" y="116" text-anchor="end">카드층 있음 (D암)</text>
+      <text class="dlabel" x="370" y="116" text-anchor="end">−38.24%p</text>
+      <circle cx="448.8" cy="110" r="11" fill="#0B0B0B"/>
+
+      <text class="tick" x="240" y="150" text-anchor="end">부호</text>
+      <text class="dlabel" x="370" y="150" text-anchor="end">역전</text>
+    </svg>
+
+    <p style="margin-top:calc(3*var(--u));display:flex;gap:calc(2*var(--u));flex-wrap:wrap">
+      <span class="status st-deny">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10 L10 3 L17 10 L10 17 Z"/><line x1="10" y1="7" x2="10" y2="13"/></svg>
+        승자 역전 — 65.79%p 이동</span>
+      <span class="status st-undet">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 L17 16 L3 16 Z"/><line x1="10" y1="8" x2="10" y2="12"/></svg>
+        외적 타당도 미검증 <span class="card">ISS-006</span></span>
+    </p>
+
+    <table class="t-ab" style="margin-top:calc(5*var(--u))">
+      <caption>EXP-005 카드층 A/B — 동일 1,000명 · 동일 선택지 순서 · 동일 모델</caption>
+      <thead><tr>
+        <th scope="col">후보</th><th scope="col">실제 개표</th>
+        <th scope="col">B 기준</th><th scope="col">D 생각 카드</th><th scope="col">E 후보 프로필</th>
+        <th scope="col">구간</th><th scope="col">상태</th>
+      </tr></thead>
+      <tbody>
+        <tr><th scope="row">이재명</th><td>49.42</td><td>58.13</td><td>26.82</td><td>53.23</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">김문수</th><td>41.15</td><td>30.58</td><td>65.06</td><td>29.94</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">이준석</th><td>8.34</td><td>4.82</td><td>3.81</td><td>2.56</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">권영국</th><td>0.98</td><td>0.25</td><td>0.30</td><td>3.75</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">송진호</th><td>0.10</td><td>6.22</td><td>4.01</td><td>10.52</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><th scope="row">MAE</th><td>—</td><td>5.93</td><td>11.13</td><td>6.80</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">1·2위 마진</th><td>+8.27</td><td>+27.55</td><td>−38.24</td><td>+23.29</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+        <tr><th scope="row">B 대비 최빈표 유지율</th><td>—</td><td>—</td><td>39.5%</td><td>83.4%</td><td class="untested">미산출</td><td>⊘ 개발 지표</td></tr>
+      </tfoot>
+    </table>
+    <p class="note">
+      저지지 후보 행은 순위로 정렬하지 않고 후보 등록 순으로 고정한다. 이준석은 phase0에서 5,135개 응답 중 <strong>0회</strong> 선택으로 원천 붕괴했고 T3 위생 수리 후 210회로 복구됐다 — 모델의 알려진 사각이다.<br>
+      B암 topline은 EXP-004 채점 58.15 / EXP-005 재채점 58.13으로 0.02%p 다르다. 재채점 시 페르소나 단위 dedup이 적용됐다(<code>score_ab.py</code>). 두 값을 하나로 합치지 않는다.
+    </p>
+    <p class="crop-notice">내부 자문·방법론 검증용 · 대외 공표 금지 (§108조의2) · 개발 지표 · EXP-005</p>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- 5-4  시도 적중 — 확률이 아니라 빈도 -->
+<section>
+  <h2>시도별 1위 적중 — 비율이 아니라 칸으로</h2>
+  <p class="def">"75%"로 적지 않는다. 분모가 17개 시도가 아니라 16개이고, 전북은 표본이 0이라 애초에 채점되지 않았다. 비율은 그 사실을 지운다.</p>
+
+  <div class="card">
+    <svg class="chart" viewBox="0 0 900 130" role="img"
+         aria-label="시도 1위 적중 격자. 채점 16개 시도 중 12개 적중 4개 빗나감. 전북은 표본 0으로 미채점.">
+      <g>
+        <!-- 12 solid -->
+        <g fill="#0B0B0B">
+          <rect x="0"   y="20" width="34" height="34" rx="3"/><rect x="40"  y="20" width="34" height="34" rx="3"/>
+          <rect x="80"  y="20" width="34" height="34" rx="3"/><rect x="120" y="20" width="34" height="34" rx="3"/>
+          <rect x="160" y="20" width="34" height="34" rx="3"/><rect x="200" y="20" width="34" height="34" rx="3"/>
+          <rect x="240" y="20" width="34" height="34" rx="3"/><rect x="280" y="20" width="34" height="34" rx="3"/>
+          <rect x="320" y="20" width="34" height="34" rx="3"/><rect x="360" y="20" width="34" height="34" rx="3"/>
+          <rect x="400" y="20" width="34" height="34" rx="3"/><rect x="440" y="20" width="34" height="34" rx="3"/>
+        </g>
+        <!-- 4 hollow -->
+        <g fill="none" stroke="#0B0B0B" stroke-width="2">
+          <rect x="480" y="20" width="34" height="34" rx="3"/><rect x="520" y="20" width="34" height="34" rx="3"/>
+          <rect x="560" y="20" width="34" height="34" rx="3"/><rect x="600" y="20" width="34" height="34" rx="3"/>
+        </g>
+        <!-- 미채점 1 : C9 극성 반전 — 모르는 것을 가장 진하게 -->
+        <rect x="660" y="14" width="46" height="46" rx="3" fill="#5B3F9E"/>
+        <line x1="669" y1="51" x2="697" y2="23" stroke="#FCFCFB" stroke-width="4"/>
+        <line x1="669" y1="23" x2="697" y2="51" stroke="#FCFCFB" stroke-width="4"/>
+      </g>
+      <text class="tick" x="0" y="76">적중 12</text>
+      <text class="tick" x="480" y="76">빗나감 4</text>
+      <text class="tick" x="660" y="80" font-weight="700">미채점 1 · 전북</text>
+      <text class="tick" x="0" y="102">빗나간 4곳은 전부 보수 우세 지역(대구·부산·경북·울산/경남·강원 중)을 이재명 승으로 예측했다.</text>
+      <text class="tick" x="0" y="122">미채점 1곳은 전북 — phase0 층화 결함으로 표본이 0이었다. 없는 칸을 채우지 않는다.</text>
+    </svg>
+    <p class="crop-notice">내부 자문·방법론 검증용 · 대외 공표 금지 (§108조의2) · 개발 지표 · EXP-001</p>
+  </div>
+</section>
+
+<hr class="rule-thin">
+
+<!-- 5-5  이 도구를 어디까지 믿어도 되는가 -->
+<section>
+  <h2>사용 한계선</h2>
+  <table class="t-limit">
+    <caption>이 엔진으로 지금 할 수 있는 것과 없는 것</caption>
+    <thead><tr><th scope="col">주장</th><th scope="col">근거</th><th scope="col">상태</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">합성 인구가 실제 인구 구조와 맞는다</th>
+          <td style="text-align:left">EXP-003 · 전국 가중마진 최대 1.09%p · 시도 0.0%p · 전 시도 n ≥ 200</td>
+          <td style="text-align:left">근거 있음 (개발 지표)</td></tr>
+      <tr><th scope="row">득표율을 5%p 이내로 재현한다</th>
+          <td style="text-align:left">EXP-004 · 잔여 편향 +9.07%p</td>
+          <td style="text-align:left"><strong>거짓 — 게이트 미달</strong></td></tr>
+      <tr><th scope="row">조건을 바꿨을 때의 반응 차이가 실제와 일치한다</th>
+          <td style="text-align:left" class="untested">G8 미실시. 실측 split-ballot 대조 없음 (ISS-006)</td>
+          <td style="text-align:left">미검정</td></tr>
+      <tr><th scope="row">제3후보를 재현한다</th>
+          <td style="text-align:left">EXP-004 · raw 0 → 210회로 복구. 다만 득표율은 4.82 vs 실제 8.34</td>
+          <td style="text-align:left">부분</td></tr>
+      <tr><th scope="row">광명 서울편입 여론을 예측한다</th>
+          <td style="text-align:left" class="untested">정답지가 존재하지 않는 이슈. 채점 대상이 아니다</td>
+          <td style="text-align:left">검증 불가</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ⑥  ProvenanceStrip 전역 -->
+<hr class="rule">
+<div class="prov">
+  <dl>
+    <dt>리포트 범위</dt><dd>EXP-001 · EXP-003 · EXP-004 · EXP-005 (21대 대통령선거 개발셋)</dd>
+    <dt>모델</dt><dd>gpt-4o-mini-2024-07-18 · 컷오프 2023-10 · temperature 1.0 · k = 5</dd>
+    <dt>컷오프 게이트</dt><dd>2023-10 &lt; 2025-06-03 → 통과 (ISS-012)</dd>
+    <dt>가중</dt><dd>weight_bank v1 (ISS-016)</dd>
+    <dt>봉인 여부</dt><dd>해당 없음 — 개발셋은 반복 채점 대상이며 봉인 백테스트가 아니다 (ISS-009)</dd>
+    <dt>미산출 항목</dt><dd class="miss">표집 구간 전부 (ISS-011 MDE 표 미작성) · 성분별 CI (EXP-004) · Δ 외적 타당도 (ISS-006)</dd>
+  </dl>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- ⑦  푸터 -->
+<footer><div class="wrap"><div class="footrow">
+  <div class="legal">
+    내부 자문·방법론 검증용 · 대외 공표 금지 (공직선거법 §108조의2)
+    <div class="sub">idea/report/EXP-004 · 재사용 조건: 없음 · 이 리포트의 수치는 개발 지표이며 성과로 인용할 수 없습니다.</div>
+  </div>
+  <div class="export">
+    <button type="button">데이터 (.csv)</button>
+    <button type="button">리포트 (.md)</button>
+    <button type="button" id="present">발표 모드</button>
+  </div>
+</div></div></footer>
+
+<script>
+// tableTwin 토글 — 모든 차트는 표 쌍둥이를 갖는다
+document.querySelectorAll('.twin button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const id=b.dataset.twin, view=b.dataset.view;
+    document.querySelectorAll(`.twin button[data-twin="${id}"]`)
+      .forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.view===view)));
+    document.querySelectorAll(`.twin-panel[data-twin="${id}"]`)
+      .forEach(p=>{p.hidden = p.dataset.view!==view;});
+  });
+});
+document.getElementById('present').addEventListener('click',()=>{
+  document.body.classList.toggle('presenting');
+});
+// 복사 시 용도 한정 고지 동반 — 숫자 하나만 드래그 복사해도 따라간다
+document.addEventListener('copy', e=>{
+  const sel=document.getSelection().toString();
+  if(!sel) return;
+  e.clipboardData.setData('text/plain',
+    sel + '\n\n[IDEA] 내부 자문·방법론 검증용 · 대외 공표 금지 (공직선거법 §108조의2) · 개발 지표 · idea/report/EXP-004');
+  e.preventDefault();
+});
+</script>
+</body>
+</html>
