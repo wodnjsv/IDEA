@@ -51,7 +51,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--full", action="store_true")
-    ap.add_argument("--arms", nargs="+", default=["D", "E"], choices=["B", "D", "E"])
+    ap.add_argument("--arms", nargs="+", default=["D", "E"], choices=["B", "D", "E", "D2A", "D2B"])
     ap.add_argument("--yes", action="store_true")
     LC.add_backend_args(ap)
     args = ap.parse_args()
@@ -64,6 +64,8 @@ def main():
     bank = {json.loads(l)["persona_id"]: json.loads(l)
             for l in open(ROOT / "data" / "banks" / "persona_bank_national_v1.jsonl", encoding="utf-8")}
     beliefs = json.load(open(OUT / "belief_cards.json", encoding="utf-8"))
+    beliefs_v2 = (json.load(open(OUT / "belief_cards_v2.json", encoding="utf-8"))
+                  if any(a in ("D2A", "D2B") for a in args.arms) else {})
     ids = json.load(open(OUT / "subsample_ids_1000.json"))   # EXP-004와 동일 표본 (paired)
     if args.smoke:
         ids = ids[:10]
@@ -86,6 +88,10 @@ def main():
         if arm == "B":
             system, user, options = build_prompt("B", p)
             bc = None
+        elif arm in ("D2A", "D2B"):
+            v2 = beliefs_v2[pid]
+            bc = {"sentences": v2[arm]["sentences"], "donor_partylr": v2["donor_partylr"]}
+            system, user, options = build_prompt_ab("D", p, bc)  # D암 골격 재사용 — 카드 내용만 상이 (EXP-007)
         else:
             bc = beliefs.get(pid)
             system, user, options = build_prompt_ab(arm, p, bc)

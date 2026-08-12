@@ -41,7 +41,7 @@ def norm(v):
 
 
 def ideo_of(rec, arm, bank):
-    if arm == "D":
+    if arm in ("D", "D2A", "D2B"):
         pl = rec.get("donor_partylr")
         return G3.get(pl)
     ci = rec.get("card_ideology") or bank.get(rec["persona_id"], {}).get("drawn", {}).get("ideology_label")
@@ -107,7 +107,7 @@ def main():
     bank = {json.loads(l)["persona_id"]: json.loads(l)
             for l in open(ROOT / "data" / "banks" / "persona_bank_national_v1.jsonl", encoding="utf-8")}
     report = {}
-    for arm in ["B", "D", "E"]:
+    for arm in ["B", "D", "E", "D2A", "D2B"]:
         p = OUT / f"raw_{arm}{suf}.jsonl"
         if not p.exists():
             continue
@@ -128,13 +128,14 @@ def main():
     if "B" not in report:
         print("\n⚠️  B암(대조) 원자료 없음 — D/E 판정은 대조군 없이는 성립하지 않는다. "
               "run_ab_cards.py --arms B 를 같은 --model로 먼저 실행하세요.")
-    if "D" in report and "B" in report:
-        d, b = report["D"], report["B"]
-        print("\n═══ D암 판정 (생각 카드 — ISS-018) ═══")
-        print(f"① 크로스보팅: 보수계→이재명 {d['cross_cons_to_lee']}% (B: {b['cross_cons_to_lee']}%) / 진보계→김문수 {d['cross_prog_to_kim']}% (B: {b['cross_prog_to_kim']}%)")
-        print(f"② 중도→김문수: {d['mid_to_kim']}% (B: {b['mid_to_kim']}%)")
-        print(f"③ Step1 다양화: {d['step1_dist']}")
-        print(f"④ MAE: {d['mae']} vs B {b['mae']}")
+    for dk, label in [("D", "생각 카드 — ISS-018"), ("D2A", "재균형 단정 — EXP-007"), ("D2B", "재균형 완화 — EXP-007")]:
+        if dk in report and "B" in report:
+            d, b = report[dk], report["B"]
+            print(f"\n═══ {dk}암 판정 ({label}) ═══")
+            print(f"① 크로스보팅: 보수계→이재명 {d['cross_cons_to_lee']}% (B: {b['cross_cons_to_lee']}%) / 진보계→김문수 {d['cross_prog_to_kim']}% (B: {b['cross_prog_to_kim']}%)")
+            print(f"② 중도→김문수: {d['mid_to_kim']}% (B: {b['mid_to_kim']}%)")
+            print(f"③ Step1 다양화: {d['step1_dist']}")
+            print(f"④ MAE: {d['mae']} vs B {b['mae']} (합격 ≤ {round(b['mae']+1, 2)})")
     if "E" in report and "B" in report:
         e, b = report["E"], report["B"]
         print("\n═══ E암 판정 (후보 프로필 — ISS-017) ═══")
