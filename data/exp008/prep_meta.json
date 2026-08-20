@@ -1,0 +1,28 @@
+{
+ "seed": 42,
+ "n_eval": 300,
+ "wave": 2023,
+ "battery": [
+  "GOVSPD2",
+  "GOVSPD3",
+  "SUCDPAED",
+  "PATRACH223",
+  "KRANCSTR",
+  "KRSHAMED",
+  "POLOPTS",
+  "CONMEDIC",
+  "HEALTH23",
+  "LIFESAT"
+ ],
+ "near_dup_excluded": [],
+ "y_adjacent_n": 173,
+ "profile_pool_n": 372,
+ "eligible_n": 1230,
+ "ref23_n": 930,
+ "ref_other_n": 2416,
+ "shuf_fallback": {
+  "L1": 282,
+  "L2": 13,
+  "L3": 5
+ }
+}

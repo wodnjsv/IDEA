@@ -1,0 +1,98 @@
+{"pid": "e23_1", "arm": "K0", "var": "SUCDPAED", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 228, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "KRANCSTR", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 222, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "POLOPTS", "pred": 7, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 223, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "CONMEDIC", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 207, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "LIFESAT", "pred": 2, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 209, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "SUCDPAED", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 379, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "GOVSPD2", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 236, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "PATRACH223", "pred": 4, "actual": 5, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 398, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "KRSHAMED", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 391, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "POLOPTS", "pred": 7, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 374, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "KRSHAMED", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 240, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "GOVSPD2", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 387, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "CONMEDIC", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 358, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "PATRACH223", "pred": 6, "actual": 5, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 247, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "LIFESAT", "pred": 3, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 360, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "KRANCSTR", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 373, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "GOVSPD3", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 236, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "HEALTH23", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 351, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "GOVSPD3", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7725, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "SUCDPAED", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7717, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "PATRACH223", "pred": 6, "actual": 5, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7736, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "KRANCSTR", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7711, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "KRSHAMED", "pred": 5, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7729, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "HEALTH23", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7689, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "LIFESAT", "pred": 3, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7698, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "CONMEDIC", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7696, "out": 7}}
+{"pid": "e23_1", "arm": "K5", "var": "GOVSPD3", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 387, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "POLOPTS", "pred": 6, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7712, "out": 7}}
+{"pid": "e23_1", "arm": "K0", "var": "HEALTH23", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 200, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "PATRACH223", "pred": 5, "actual": 5, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7637, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "KRANCSTR", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7612, "out": 7}}
+{"pid": "e23_1", "arm": "FULL", "var": "GOVSPD2", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7725, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "POLOPTS", "pred": 7, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7613, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "LIFESAT", "pred": 3, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7599, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "GOVSPD2", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7626, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "HEALTH23", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7590, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "GOVSPD2", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 235, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "PATRACH223", "pred": 6, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 246, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "CONMEDIC", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7597, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "KRANCSTR", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 221, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "KRSHAMED", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7630, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "KRSHAMED", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 239, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "POLOPTS", "pred": 7, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 222, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "GOVSPD3", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 235, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "SUCDPAED", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7618, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "CONMEDIC", "pred": 1, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 206, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "HEALTH23", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 199, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "LIFESAT", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 208, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "GOVSPD3", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 345, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "SUCDPAED", "pred": 2, "actual": 1, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 337, "out": 7}}
+{"pid": "e23_4", "arm": "K0", "var": "SUCDPAED", "pred": 3, "actual": 1, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 227, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "PATRACH223", "pred": 6, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 356, "out": 7}}
+{"pid": "e23_1", "arm": "SHUF", "var": "GOVSPD3", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7626, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "KRSHAMED", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 349, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "KRANCSTR", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 331, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "POLOPTS", "pred": 6, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 332, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "CONMEDIC", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 316, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "PATRACH223", "pred": 4, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7529, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "SUCDPAED", "pred": 2, "actual": 1, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7510, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "HEALTH23", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 309, "out": 7}}
+{"pid": "e23_4", "arm": "K5", "var": "LIFESAT", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "GOVSPD2", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "GOVSPD3", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "KRANCSTR", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "KRSHAMED", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "K5", "var": "GOVSPD2", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 345, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "POLOPTS", "pred": null, "actual": 6, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "CONMEDIC", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "HEALTH23", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "FULL", "var": "LIFESAT", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "GOVSPD2", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "GOVSPD3", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "SUCDPAED", "pred": null, "actual": 1, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "PATRACH223", "pred": null, "actual": 4, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "KRANCSTR", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "KRSHAMED", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "POLOPTS", "pred": 6, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7492, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "CONMEDIC", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "HEALTH23", "pred": null, "actual": 2, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "SHUF", "var": "LIFESAT", "pred": null, "actual": 3, "error": "Error code: 429 - {'status': 429, 'title': 'Too Many Requests'}", "model": "meta/llama-3.1-70b-instruct"}
+{"pid": "e23_4", "arm": "K5", "var": "LIFESAT", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 318, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "KRANCSTR", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7504, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "KRSHAMED", "pred": 4, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7522, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "GOVSPD3", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7518, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "CONMEDIC", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7489, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "GOVSPD2", "pred": 2, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7518, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "HEALTH23", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7482, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "GOVSPD2", "pred": 1, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7505, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "POLOPTS", "pred": 6, "actual": 6, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7505, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "GOVSPD3", "pred": 2, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7505, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "SUCDPAED", "pred": 2, "actual": 1, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7497, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "PATRACH223", "pred": 6, "actual": 4, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7516, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "CONMEDIC", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7476, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "KRSHAMED", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7509, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "KRANCSTR", "pred": 1, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7491, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "HEALTH23", "pred": 3, "actual": 2, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7469, "out": 7}}
+{"pid": "e23_4", "arm": "SHUF", "var": "LIFESAT", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7478, "out": 7}}
+{"pid": "e23_4", "arm": "FULL", "var": "LIFESAT", "pred": 3, "actual": 3, "model": "meta/llama-3.1-70b-instruct", "usage": {"in": 7491, "out": 7}}
