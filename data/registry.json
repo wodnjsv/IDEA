@@ -25,6 +25,11 @@
       "path": "raw/kor_data_CUM0074_V2.sav",
       "sha256": "48c5ca4b4838fc11f4055d8867aafcc94c418359f5de0fecf01ab6b6b4226b95",
       "format": "spss", "cases": 23282, "source": "KOSSDA 한국종합사회조사 2003-2025 누적자료 V2"
+    },
+    "socsci210": {
+      "path": "raw/socsci210",
+      "format": "parquet-dir", "rows": 2901390,
+      "source": "SocSci210 개인응답 실험 코퍼스(스터디 210개, 공개 2025-08) — EXP-009 미국장 소스"
     }
   }
 }
