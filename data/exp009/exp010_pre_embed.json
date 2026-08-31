@@ -1,0 +1,268 @@
+[
+ {
+  "study": "s43kb",
+  "role": "real",
+  "subtype": "톤-정중/거침",
+  "human_pp": 41.14,
+  "dist": 0.07932
+ },
+ {
+  "study": "s2rd5",
+  "role": "real",
+  "subtype": "워딩-정의추가",
+  "human_pp": -36.29,
+  "dist": 0.03134
+ },
+ {
+  "study": "ye2ej",
+  "role": "real",
+  "subtype": "라벨-인물성별",
+  "human_pp": 17.15,
+  "dist": 0.16047
+ },
+ {
+  "study": "ar9e3",
+  "role": "real",
+  "subtype": "워딩-질문문구",
+  "human_pp": 16.98,
+  "dist": 0.0378
+ },
+ {
+  "study": "xym9d",
+  "role": "real",
+  "subtype": "워딩-초당파",
+  "human_pp": 13.49,
+  "dist": 0.005
+ },
+ {
+  "study": "kv3sd",
+  "role": "real",
+  "subtype": "라벨-채권기관",
+  "human_pp": 13.0,
+  "dist": 0.12928
+ },
+ {
+  "study": "fct42",
+  "role": "real",
+  "subtype": "라벨-용어(racism)",
+  "human_pp": 10.62,
+  "dist": 0.04662
+ },
+ {
+  "study": "yp736",
+  "role": "real",
+  "subtype": "단서-정파",
+  "human_pp": 7.0,
+  "dist": 0.00827
+ },
+ {
+  "study": "4rqy5",
+  "role": "real",
+  "subtype": "워딩-묘사추가",
+  "human_pp": 7.05,
+  "dist": 0.11099
+ },
+ {
+  "study": "m52pd",
+  "role": "real",
+  "subtype": "라벨-이름성별",
+  "human_pp": 7.74,
+  "dist": 0.03554
+ },
+ {
+  "study": "zsekp",
+  "role": "real",
+  "subtype": "형식-숫자/문자등급",
+  "human_pp": -7.49,
+  "dist": 0.04663
+ },
+ {
+  "study": "j38gd",
+  "role": "real",
+  "subtype": "워딩-무의견옵션",
+  "human_pp": -7.12,
+  "dist": 0.01795
+ },
+ {
+  "study": "fxcn4",
+  "role": "real",
+  "subtype": "라벨-인종정체성",
+  "human_pp": 6.49,
+  "dist": 0.03464
+ },
+ {
+  "study": "xweq8",
+  "role": "real",
+  "subtype": "워딩-집단명시",
+  "human_pp": -6.5,
+  "dist": 0.0474
+ },
+ {
+  "study": "52ymc",
+  "role": "real",
+  "subtype": "워딩-성별단어",
+  "human_pp": -7.99,
+  "dist": 0.09812
+ },
+ {
+  "study": "xtvu5",
+  "role": "real",
+  "subtype": "워딩-맥락명시",
+  "human_pp": -8.52,
+  "dist": 0.07206
+ },
+ {
+  "study": "j6xgs",
+  "role": "real",
+  "subtype": "워딩-방향반전",
+  "human_pp": 5.0,
+  "dist": 0.02095
+ },
+ {
+  "study": "ak35q",
+  "role": "ref",
+  "subtype": "정보-가격공개(참고)",
+  "human_pp": 33.37,
+  "dist": 0.0191
+ },
+ {
+  "study": "nb4xg",
+  "role": "null",
+  "subtype": "라벨-인종(위약)",
+  "human_pp": 1.85,
+  "dist": 0.0
+ },
+ {
+  "study": "a7uk3",
+  "role": "null",
+  "subtype": "라벨-정당(위약)",
+  "human_pp": -1.73,
+  "dist": 0.00302
+ },
+ {
+  "study": "ejms3",
+  "role": "null",
+  "subtype": "라벨-정당(위약)",
+  "human_pp": 1.07,
+  "dist": 0.02272
+ },
+ {
+  "study": "kwfs3",
+  "role": "null",
+  "subtype": "라벨-집단명(위약)",
+  "human_pp": 0.7,
+  "dist": 0.08482
+ },
+ {
+  "study": "egmxd",
+  "role": "null",
+  "subtype": "형식-라벨종류(위약)",
+  "human_pp": 0.0,
+  "dist": 0.20874
+ },
+ {
+  "study": "xfmrn",
+  "role": "null",
+  "subtype": "워딩-리마인더(위약)",
+  "human_pp": 1.44,
+  "dist": 0.10715
+ },
+ {
+  "study": "3bzxg",
+  "role": "null",
+  "subtype": "워딩-주의문구(위약)",
+  "human_pp": 0.19,
+  "dist": 0.24888
+ },
+ {
+  "study": "hz5rt",
+  "role": "null",
+  "subtype": "내용-논거문장(위약)",
+  "human_pp": 0.72,
+  "dist": 0.05028
+ },
+ {
+  "study": "nj5dx",
+  "role": "null",
+  "subtype": "프레임-특권/불리(위약)",
+  "human_pp": 1.5,
+  "dist": 0.07332
+ },
+ {
+  "study": "e2pyb",
+  "role": "null",
+  "subtype": "프레임-격차종류(위약)",
+  "human_pp": 1.63,
+  "dist": 0.1093
+ },
+ {
+  "study": "q8ra3",
+  "role": "null",
+  "subtype": "프레임-국제/미국(위약)",
+  "human_pp": -1.79,
+  "dist": 0.01623
+ },
+ {
+  "study": "rs65g",
+  "role": "null",
+  "subtype": "내용-가격옵션(위약)",
+  "human_pp": 1.02,
+  "dist": 0.0126
+ },
+ {
+  "study": "v6kqy",
+  "role": "null",
+  "subtype": "내용-차종(위약)",
+  "human_pp": -0.45,
+  "dist": 0.22827
+ },
+ {
+  "study": "dehmv",
+  "role": "null",
+  "subtype": "내용-후보속성(위약)",
+  "human_pp": -1.12,
+  "dist": 0.1705
+ },
+ {
+  "study": "waq4m",
+  "role": "null",
+  "subtype": "내용-논거문단(위약)",
+  "human_pp": 1.11,
+  "dist": 0.28625
+ },
+ {
+  "study": "c38xe",
+  "role": "null",
+  "subtype": "내용-후보속성(위약)",
+  "human_pp": 1.86,
+  "dist": 0.05839
+ },
+ {
+  "study": "b3ve6",
+  "role": "null",
+  "subtype": "내용-프로필속성(위약)",
+  "human_pp": 0.12,
+  "dist": 0.01289
+ },
+ {
+  "study": "ervm8",
+  "role": "null",
+  "subtype": "워딩-검증안내(위약)",
+  "human_pp": 1.76,
+  "dist": 0.11603
+ },
+ {
+  "study": "3jwnf",
+  "role": "null",
+  "subtype": "프레임-피해자집단(위약)",
+  "human_pp": -1.41,
+  "dist": 0.16846
+ },
+ {
+  "study": "jmtyn",
+  "role": "null",
+  "subtype": "내용-정책서술(위약)",
+  "human_pp": -1.19,
+  "dist": 0.04781
+ }
+]

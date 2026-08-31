@@ -23,7 +23,7 @@ SEED = 20260828
 OUT = data_dir() / "exp009"
 OUT.mkdir(exist_ok=True)
 
-F = pd.read_csv(data_dir() / "exp009_us_pairs_frozen.csv")
+F = pd.read_csv(data_dir() / "exp009_us_pairs_frozen.csv", keep_default_na=False)  # role="null" 문자열 보존
 SRC = resolve("socsci210")
 shards = sorted(SRC.rglob("*.parquet"))
 cols = ["study_id", "task_num", "condition_num", "response", "stimuli", "participant", "demographic"]
