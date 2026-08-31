@@ -1,0 +1,138 @@
+{
+ "anchor": {
+  "NOPROF": {
+   "delta": 52.22,
+   "ci": [
+    46.67,
+    58.01
+   ],
+   "weighted": 52.33,
+   "n": 300,
+   "sub_none": 59.5,
+   "sub_partisan": 47.62
+  },
+  "DEMO": {
+   "delta": 48.0,
+   "ci": [
+    39.56,
+    56.67
+   ],
+   "weighted": 48.65,
+   "n": 300,
+   "sub_none": 50.9,
+   "sub_partisan": 47.96
+  },
+  "FULL": {
+   "delta": 3.67,
+   "ci": [
+    0.44,
+    7.22
+   ],
+   "weighted": 3.49,
+   "n": 300,
+   "sub_none": 2.87,
+   "sub_partisan": 4.25
+  }
+ },
+ "placebo": {
+  "SAMPTHOU23|NOPROF": {
+   "cat": 1,
+   "delta": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "n": 300
+  },
+  "SAMPTHOU23|DEMO": {
+   "cat": 1,
+   "delta": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "n": 300
+  },
+  "SAMPTHOU23|FULL": {
+   "cat": 1,
+   "delta": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "n": 300
+  },
+  "NUKPLT18|NOPROF": {
+   "cat": 3,
+   "delta": -27.67,
+   "ci": [
+    -30.56,
+    -24.67
+   ],
+   "n": 300
+  },
+  "NUKPLT18|DEMO": {
+   "cat": 3,
+   "delta": -26.78,
+   "ci": [
+    -30.89,
+    -22.89
+   ],
+   "n": 300
+  },
+  "NUKPLT18|FULL": {
+   "cat": 2,
+   "delta": 20.22,
+   "ci": [
+    16.56,
+    24.11
+   ],
+   "n": 300
+  },
+  "NUKPLT21|DEMO": {
+   "cat": 3,
+   "delta": -26.0,
+   "ci": [
+    -30.11,
+    -22.22
+   ],
+   "n": 300
+  },
+  "PROUD21|DEMO": {
+   "cat": 1,
+   "delta": 58.56,
+   "ci": [
+    54.11,
+    63.0
+   ],
+   "n": 300
+  },
+  "ELEFRAUD25|DEMO": {
+   "cat": 3,
+   "delta": -6.22,
+   "ci": [
+    -8.44,
+    -4.22
+   ],
+   "n": 300
+  },
+  "LAWHARSH25|DEMO": {
+   "cat": 2,
+   "delta": 49.67,
+   "ci": [
+    44.89,
+    54.67
+   ],
+   "n": 300
+  },
+  "SAMPTNTH25|DEMO": {
+   "cat": 1,
+   "delta": 0.0,
+   "ci": [
+    0.0,
+    0.0
+   ],
+   "n": 300
+  }
+ }
+}
