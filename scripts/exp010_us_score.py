@@ -10,6 +10,8 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+import argparse
+
 import numpy as np
 from scipy.stats import binomtest
 
@@ -20,13 +22,20 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 rng = np.random.default_rng(20260828)
 B = 4000
 
+ap = argparse.ArgumentParser()
+ap.add_argument("--raw", default="us_dist_raw.jsonl", help="dist 스키마 입력(us_ssr_scored.jsonl 가능)")
+ap.add_argument("--out", default=None)
+args = ap.parse_args()
+OUT_NAME = args.out or args.raw.replace("_raw", "").replace(".jsonl", "_score.json") \
+    .replace("_scored", "_score.json").replace(".json.json", ".json")
+
 pairs = {p["study"]: p for p in
          (json.loads(l) for l in open(D9 / "us_pairs_runtime.jsonl", encoding="utf-8"))}
 prev = json.load(open(D9 / "us_score.json", encoding="utf-8"))
 prev_by = {r["study"]: r for role in prev for r in prev[role]}
 
 data = defaultdict(lambda: defaultdict(dict))
-for l in open(D10 / "us_dist_raw.jsonl", encoding="utf-8"):
+for l in open(D10 / args.raw, encoding="utf-8"):
     r = json.loads(l)
     if r.get("dist") is None:
         continue
@@ -110,6 +119,6 @@ if res["ref"]:
     print(f"\n=== 참고쌍 === {r['study']} 인간 {r['human_pp']:+.1f} | dist {r['llm_pp']:+.2f} "
           f"| 강제 {r['forced_pp']:+.2f}")
 
-json.dump(res, io.open(D10 / "us_dist_score.json", "w", encoding="utf-8"),
+json.dump(res, io.open(D10 / OUT_NAME, "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
-print("\n저장: us_dist_score.json")
+print(f"\n저장: {OUT_NAME}")
