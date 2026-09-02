@@ -195,7 +195,8 @@ def main():
     rpm = args.rpm or (250 if args.track == "kr" else 40)
     conc = args.concurrency or (15 if args.track == "kr" else 48)
     spec = LC.MODELS[model]
-    client, fp = LC.make_client(spec.provider, None)
+    client, fp = LC.make_client(spec.provider, None,
+                                timeout=2400 if spec.provider == "nvidia" else None)  # 무료 큐 지연 대응
     print(f"[EXP-010 {args.track}/{args.channel}] {spec.id} key={fp}", flush=True)
 
     tasks = (build_tasks_kr if args.track == "kr" else build_tasks_us)(args.channel, args.smoke)

@@ -101,11 +101,12 @@ def load_key(provider: str, key_file: str | None = None) -> tuple[str, str]:
         f"  또는 gitignore된 키 파일에 '{cfg['prefix']}...' 를 한 줄 포함 (기본 탐색: API.txt)")
 
 
-def make_client(provider: str, key_file: str | None = None):
+def make_client(provider: str, key_file: str | None = None, timeout: float | None = None):
     from openai import OpenAI
     key, fp = load_key(provider, key_file)
     base = PROVIDERS[provider]["base_url"]
-    client = OpenAI(api_key=key, base_url=base) if base else OpenAI(api_key=key)
+    kw = {"timeout": timeout} if timeout else {}  # 무료 큐 지연(>10분) 대응 — ISS-024
+    client = OpenAI(api_key=key, base_url=base, **kw) if base else OpenAI(api_key=key, **kw)
     return client, fp
 
 
