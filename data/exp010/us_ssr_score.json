@@ -1,0 +1,540 @@
+{
+ "real": [
+  {
+   "study": "s43kb",
+   "subtype": "톤-정중/거침",
+   "human_pp": 41.14,
+   "llm_pp": 74.09,
+   "ci": [
+    70.99,
+    76.83
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 22.5
+  },
+  {
+   "study": "s2rd5",
+   "subtype": "워딩-정의추가",
+   "human_pp": -36.29,
+   "llm_pp": -24.54,
+   "ci": [
+    -29.75,
+    -19.42
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -37.22
+  },
+  {
+   "study": "ye2ej",
+   "subtype": "라벨-인물성별",
+   "human_pp": 17.15,
+   "llm_pp": -3.15,
+   "ci": [
+    -9.2,
+    2.58
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": false,
+   "forced_pp": 7.5
+  },
+  {
+   "study": "ar9e3",
+   "subtype": "워딩-질문문구",
+   "human_pp": 16.98,
+   "llm_pp": 0.87,
+   "ci": [
+    -0.71,
+    2.46
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -1.39
+  },
+  {
+   "study": "xym9d",
+   "subtype": "워딩-초당파",
+   "human_pp": 13.49,
+   "llm_pp": 1.25,
+   "ci": [
+    -0.46,
+    3.21
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -0.28
+  },
+  {
+   "study": "kv3sd",
+   "subtype": "라벨-채권기관",
+   "human_pp": 13.0,
+   "llm_pp": 2.59,
+   "ci": [
+    -1.23,
+    6.44
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -3.61
+  },
+  {
+   "study": "fct42",
+   "subtype": "라벨-용어(racism)",
+   "human_pp": 10.62,
+   "llm_pp": 13.75,
+   "ci": [
+    10.33,
+    17.17
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 27.22
+  },
+  {
+   "study": "yp736",
+   "subtype": "단서-정파",
+   "human_pp": 7.0,
+   "llm_pp": 0.51,
+   "ci": [
+    -0.87,
+    1.88
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 0.0
+  },
+  {
+   "study": "4rqy5",
+   "subtype": "워딩-묘사추가",
+   "human_pp": 7.05,
+   "llm_pp": -0.83,
+   "ci": [
+    -2.29,
+    0.62
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": false,
+   "forced_pp": 8.78
+  },
+  {
+   "study": "m52pd",
+   "subtype": "라벨-이름성별",
+   "human_pp": 7.74,
+   "llm_pp": 1.19,
+   "ci": [
+    -1.66,
+    4.53
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 9.56
+  },
+  {
+   "study": "zsekp",
+   "subtype": "형식-숫자/문자등급",
+   "human_pp": -7.49,
+   "llm_pp": -0.88,
+   "ci": [
+    -3.45,
+    1.52
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -9.89
+  },
+  {
+   "study": "j38gd",
+   "subtype": "워딩-무의견옵션",
+   "human_pp": -7.12,
+   "llm_pp": 2.83,
+   "ci": [
+    0.5,
+    5.04
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": -0.78
+  },
+  {
+   "study": "fxcn4",
+   "subtype": "라벨-인종정체성",
+   "human_pp": 6.49,
+   "llm_pp": 1.68,
+   "ci": [
+    -0.3,
+    3.79
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -8.89
+  },
+  {
+   "study": "xweq8",
+   "subtype": "워딩-집단명시",
+   "human_pp": -6.5,
+   "llm_pp": 0.29,
+   "ci": [
+    -2.04,
+    2.79
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": false,
+   "forced_pp": -1.44
+  },
+  {
+   "study": "52ymc",
+   "subtype": "워딩-성별단어",
+   "human_pp": -7.99,
+   "llm_pp": -14.08,
+   "ci": [
+    -18.58,
+    -9.5
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -15.22
+  },
+  {
+   "study": "xtvu5",
+   "subtype": "워딩-맥락명시",
+   "human_pp": -8.52,
+   "llm_pp": -3.96,
+   "ci": [
+    -6.58,
+    -1.5
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -4.44
+  },
+  {
+   "study": "j6xgs",
+   "subtype": "워딩-방향반전",
+   "human_pp": 5.0,
+   "llm_pp": -11.73,
+   "ci": [
+    -13.16,
+    -10.27
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": 0.89
+  }
+ ],
+ "null": [
+  {
+   "study": "nb4xg",
+   "subtype": "라벨-인종(위약)",
+   "human_pp": 1.85,
+   "llm_pp": -6.58,
+   "ci": [
+    -11.17,
+    -1.92
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": -1.11
+  },
+  {
+   "study": "a7uk3",
+   "subtype": "라벨-정당(위약)",
+   "human_pp": -1.73,
+   "llm_pp": -0.46,
+   "ci": [
+    -2.75,
+    1.87
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -1.39
+  },
+  {
+   "study": "ejms3",
+   "subtype": "라벨-정당(위약)",
+   "human_pp": 1.07,
+   "llm_pp": 1.0,
+   "ci": [
+    -0.04,
+    2.04
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 22.78
+  },
+  {
+   "study": "kwfs3",
+   "subtype": "라벨-집단명(위약)",
+   "human_pp": 0.7,
+   "llm_pp": 3.08,
+   "ci": [
+    -3.42,
+    9.58
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -7.5
+  },
+  {
+   "study": "egmxd",
+   "subtype": "형식-라벨종류(위약)",
+   "human_pp": 0.0,
+   "llm_pp": -9.5,
+   "ci": [
+    -18.46,
+    -0.33
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": 26.94
+  },
+  {
+   "study": "xfmrn",
+   "subtype": "워딩-리마인더(위약)",
+   "human_pp": 1.44,
+   "llm_pp": 0.04,
+   "ci": [
+    -1.88,
+    2.04
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 2.22
+  },
+  {
+   "study": "3bzxg",
+   "subtype": "워딩-주의문구(위약)",
+   "human_pp": 0.19,
+   "llm_pp": 4.46,
+   "ci": [
+    -1.21,
+    9.92
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": -9.72
+  },
+  {
+   "study": "hz5rt",
+   "subtype": "내용-논거문장(위약)",
+   "human_pp": 0.72,
+   "llm_pp": 0.46,
+   "ci": [
+    -0.79,
+    1.75
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 1.67
+  },
+  {
+   "study": "nj5dx",
+   "subtype": "프레임-특권/불리(위약)",
+   "human_pp": 1.5,
+   "llm_pp": 4.91,
+   "ci": [
+    2.93,
+    6.99
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 4.44
+  },
+  {
+   "study": "e2pyb",
+   "subtype": "프레임-격차종류(위약)",
+   "human_pp": 1.63,
+   "llm_pp": -3.08,
+   "ci": [
+    -4.6,
+    -1.6
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": -9.44
+  },
+  {
+   "study": "q8ra3",
+   "subtype": "프레임-국제/미국(위약)",
+   "human_pp": -1.79,
+   "llm_pp": 1.27,
+   "ci": [
+    0.19,
+    2.34
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": true,
+   "forced_pp": 1.11
+  },
+  {
+   "study": "rs65g",
+   "subtype": "내용-가격옵션(위약)",
+   "human_pp": 1.02,
+   "llm_pp": 13.32,
+   "ci": [
+    7.71,
+    18.81
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 7.78
+  },
+  {
+   "study": "v6kqy",
+   "subtype": "내용-차종(위약)",
+   "human_pp": -0.45,
+   "llm_pp": -1.08,
+   "ci": [
+    -3.08,
+    0.92
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": false,
+   "forced_pp": 3.06
+  },
+  {
+   "study": "dehmv",
+   "subtype": "내용-후보속성(위약)",
+   "human_pp": -1.12,
+   "llm_pp": -20.25,
+   "ci": [
+    -26.6,
+    -13.99
+   ],
+   "n": 119,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 8.33
+  },
+  {
+   "study": "waq4m",
+   "subtype": "내용-논거문단(위약)",
+   "human_pp": 1.11,
+   "llm_pp": 5.25,
+   "ci": [
+    2.5,
+    7.96
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 0.0
+  },
+  {
+   "study": "c38xe",
+   "subtype": "내용-후보속성(위약)",
+   "human_pp": 1.86,
+   "llm_pp": 5.77,
+   "ci": [
+    3.49,
+    8.01
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 20.0
+  },
+  {
+   "study": "b3ve6",
+   "subtype": "내용-프로필속성(위약)",
+   "human_pp": 0.12,
+   "llm_pp": 8.04,
+   "ci": [
+    4.29,
+    11.88
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": 4.44
+  },
+  {
+   "study": "ervm8",
+   "subtype": "워딩-검증안내(위약)",
+   "human_pp": 1.76,
+   "llm_pp": 4.96,
+   "ci": [
+    2.54,
+    7.21
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -0.56
+  },
+  {
+   "study": "3jwnf",
+   "subtype": "프레임-피해자집단(위약)",
+   "human_pp": -1.41,
+   "llm_pp": -29.85,
+   "ci": [
+    -34.79,
+    -24.83
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -48.33
+  },
+  {
+   "study": "jmtyn",
+   "subtype": "내용-정책서술(위약)",
+   "human_pp": -1.19,
+   "llm_pp": 1.08,
+   "ci": [
+    -1.0,
+    3.58
+   ],
+   "n": 120,
+   "dir_match": false,
+   "sig": false,
+   "forced_pp": 18.06
+  }
+ ],
+ "ref": [
+  {
+   "study": "ak35q",
+   "subtype": "정보-가격공개(참고)",
+   "human_pp": 33.37,
+   "llm_pp": 8.67,
+   "ci": [
+    6.38,
+    10.88
+   ],
+   "n": 120,
+   "dir_match": true,
+   "sig": true,
+   "forced_pp": -1.67
+  }
+ ]
+}
