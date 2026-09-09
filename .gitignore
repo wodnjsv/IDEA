@@ -8,3 +8,10 @@ venv/
 data/raw/
 docs/4_참고자료/데이터/*2003-2025*
 .gstack/
+
+# 실험 러너 실행 부산물 (재현에 불필요 — 원자료 jsonl·score json은 커밋 대상)
+data/exp*/*.log
+data/exp*/*_smoke.jsonl
+data/exp*/*_smoke.log
+data/exp*/*_done.txt
+data/exp*/*_console.txt
