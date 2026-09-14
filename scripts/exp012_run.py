@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """EXP-012 21대 대선 재현 — 분포 채널판 러너 (D1 라벨 포함 / D2 라벨 제거).
 
     python scripts/exp012_run.py --smoke        # 2암 × 10명
@@ -37,7 +37,8 @@ def build(persona, arm):
     card = persona["card"]
     if arm == "D2":
         card = IDEO_PAT.sub("", card)
-    opts = persona_order(persona["persona_id"], CANDIDATES) + [ABSTAIN, DK]
+    cands = CANDIDATES[:3] if arm.endswith("_3") else CANDIDATES  # *_3 = 3자 구도(이재명·김문수·이준석)
+    opts = persona_order(persona["persona_id"], cands) + [ABSTAIN, DK]
     lines = "\n".join(f"{i+1}. {o}" for i, o in enumerate(opts))
     keys = ", ".join(f'"{i+1}": 확률' for i in range(len(opts)))
     body = (f"[페르소나]\n{card}\n\n[과제]\n2025년 6월 3일 제21대 대통령선거 당일, 이 인물은 다음 중 누구에게 "
@@ -72,9 +73,11 @@ def main():
     ap.add_argument("--full", action="store_true")
     ap.add_argument("--rpm", type=int, default=250)
     ap.add_argument("--concurrency", type=int, default=15)
+    ap.add_argument("--arms", nargs="+", default=["D1", "D2"])
     args = ap.parse_args()
     if not (args.smoke or args.full):
         sys.exit("--smoke 또는 --full")
+    ARMS = args.arms
     spec = LC.MODELS["gpt-4o-mini"]
     gate = LC.assert_cutoff(spec)
     client, fp = LC.make_client("openai", None)
@@ -95,7 +98,7 @@ def main():
                     done.add(r["key"])
             except Exception:
                 pass
-    tasks = [(p, arm) for arm in ("D1", "D2") for p in personas if f"{arm}|{p['persona_id']}" not in done]
+    tasks = [(p, arm) for arm in ARMS for p in personas if f"{arm}|{p['persona_id']}" not in done]
     print(f"작업 {len(tasks)}콜 (스킵 {len(done)}) → {path.name}", flush=True)
     stats = {"ok": 0, "err": 0, "parse_fail": 0, "tok_in": 0, "tok_out": 0}
     limiter = LC.RateLimiter(args.rpm)

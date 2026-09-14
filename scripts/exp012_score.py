@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """EXP-012 채점 — 분포 채널 21대 대선 재현. weight_bank 가중, 유효표 재정규화, 게이트 H1~H4."""
 import io
 import json
@@ -30,14 +30,16 @@ def valid_share(d):
     return {c: x / s for c, x in v.items()} if s > 0 else None
 
 
-for arm in ("D1", "D2"):
+for arm in sorted({r["arm"] for r in rows}):
     R = [r for r in rows if r["arm"] == arm]
     if not R:
         continue
+    CANDS = GT["candidates"][:3] if arm.endswith("_3") else GT["candidates"]  # 3자 구도: 정답 재정규화
+    gt_raw = np.array([GT["national_pct"][c] for c in CANDS]); gt_raw = gt_raw / gt_raw.sum() * 100
     W = np.array([r["weight_bank"] for r in R])
     V = np.array([[valid_share(r["dist"])[c] for c in CANDS] for r in R])
     share = (W[:, None] * V).sum(0) / W.sum() * 100
-    gt = np.array([GT["national_pct"][c] for c in CANDS])
+    gt = gt_raw
     # 부트스트랩 CI (페르소나 리샘플)
     idx = rng.integers(0, len(R), (2000, len(R)))
     bs = np.array([(W[i][:, None] * V[i]).sum(0) / W[i].sum() * 100 for i in idx])
@@ -46,7 +48,8 @@ for arm in ("D1", "D2"):
     abst = float((W * np.array([r["dist"].get(ABST, 0) for r in R])).sum() / W.sum() * 100)
     dk = float((W * np.array([r["dist"].get(DK, 0) for r in R])).sum() / W.sum() * 100)
     ent = float(np.mean([-(p := np.array([x for x in r["dist"].values() if x > 0])) @ np.log(p) for r in R]))
-    print(f"\n===== {arm} ({'라벨 포함' if arm == 'D1' else '라벨 제거'}) n={len(R)} =====")
+    tag = "3자 구도(정답 재정규화)" if arm.endswith("_3") else ("라벨 포함" if arm == "D1" else "라벨 제거")
+    print(f"\n===== {arm} ({tag}) n={len(R)} =====")
     for c, s, l, h, g in zip(CANDS, share, lo, hi, gt):
         print(f"  {c:12} {s:6.2f} [{l:5.1f},{h:5.1f}]  실제 {g:6.2f}  오차 {s-g:+6.2f}")
     resid = share[0] - gt[0]
@@ -68,6 +71,6 @@ for arm in ("D1", "D2"):
         ww = np.array([w for w, _ in S]); vv = np.array([v for _, v in S])
         sh = (ww[:, None] * vv).sum(0) / ww.sum() * 100
         print(f"  카드 '{lab}' (n={len(S)}): 이재명 {sh[0]:.1f} / 김문수 {sh[1]:.1f} / 이준석 {sh[2]:.1f}")
-    g1 = abs(resid) < EXP004["잔여"]; g3 = share[4] < 2 and 4 <= share[2] <= 14
+    g1 = abs(resid) < EXP004["잔여"]; g3 = (len(CANDS) == 3 or share[4] < 2) and 4 <= share[2] <= 14
     print(f"  게이트 H1(|잔여|<9.07) {'O' if g1 else 'X'} | H3(송진호<2, 이준석 4~14) {'O' if g3 else 'X'} | MAE<5.94 {'O' if mae < 5.94 else 'X'} | 시도≥13 {'O' if hit >= 13 else 'X'}")
 print("\n(개발셋 지표 — 대외 인용 금지, ISS-009)")
