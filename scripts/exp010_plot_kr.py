@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""EXP-010 한국장 시각화: 문항 3개 × (실제 사람 / 가상 시민-분포발화 / 가상 시민-강제선택).
+"""EXP-010 한국장 시각화: 문항 3개 × (실제 사람 / 가상 시민-분포발화).
 
 기존 결과의 재표시(신규 지표 없음). 인구정보 암(DEMO), A형 문구 기준.
 SSR은 τ를 이 칸(DEMO·A형)으로 캘리브레이션해 자기채점이 되므로 제외.
@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from engine.registry import data_dir, resolve  # noqa: E402
 
-plt.rcParams["font.family"] = "Malgun Gothic"
+plt.rcParams["font.family"] = "Pretendard"
 plt.rcParams["axes.unicode_minus"] = False
 
 D9, D10 = data_dir() / "exp009", data_dir() / "exp010"
@@ -35,12 +35,6 @@ num = df.apply(pd.to_numeric, errors="coerce").where(lambda x: x >= 0)
 def kgss_dist(var, year, keys):
     s = num.loc[df["YEAR"] == year, var].dropna()
     return {k: float((s == k).mean()) for k in keys}, len(s)
-
-
-def forced(item, keys):
-    preds = [r["pred"] for r in map(json.loads, open(D9 / "kr_raw.jsonl", encoding="utf-8"))
-             if r.get("pred") is not None and r["item"] == item and r["arm"] == ARM and r["form"] == FORM]
-    return {k: preds.count(k) / len(preds) for k in keys}, len(preds)
 
 
 def dist(item, keys):
@@ -69,33 +63,30 @@ QUESTIONS = [
 ]
 
 fig, axes = plt.subplots(1, 3, figsize=(17, 5.8))
-series = [("실제 사람", "#2b2b2b"), ("가상 시민 · 분포 발화 (EXP-010)", "#1f77b4"),
-          ("가상 시민 · 강제 선택 (EXP-009)", "#d9a441")]
+series = [("실제 사람", "#2b2b2b"), ("가상 시민 (분포 발화)", "#1f77b4")]
 for ax, (item, title, src, real_fn) in zip(axes, QUESTIONS):
     opts = items[item][FORM]["opts"]
     keys = [o["v"] for o in opts]
     real, n_real = real_fn(keys)
     dv, n_d = dist(item, keys)
-    fv, n_f = forced(item, keys)
     x = np.arange(len(keys))
-    w = 0.27
-    for j, ((name, color), vals) in enumerate(zip(series, [real, dv, fv])):
+    w = 0.36
+    for j, ((name, color), vals) in enumerate(zip(series, [real, dv])):
         ys = [vals[k] * 100 for k in keys]
-        bars = ax.bar(x + (j - 1) * w, ys, w, color=color, label=name)
+        bars = ax.bar(x + (j - 0.5) * w, ys, w, color=color, label=name)
         for b, y in zip(bars, ys):
-            ax.text(b.get_x() + b.get_width() / 2, y + 1, f"{y:.0f}", ha="center", va="bottom", fontsize=8)
+            ax.text(b.get_x() + b.get_width() / 2, y + 1, f"{y:.0f}", ha="center", va="bottom", fontsize=9)
     tvd_d = 0.5 * sum(abs(real[k] - dv[k]) for k in keys)
-    tvd_f = 0.5 * sum(abs(real[k] - fv[k]) for k in keys)
     ax.set_title(f"{title}\n{src} · 가상 {n_d}명", fontsize=11)
     ax.set_xticks(x, [short(o["label"]) for o in opts], fontsize=9)
-    ax.set_ylim(0, 122)
+    ax.set_ylim(0, 90)
     ax.set_ylabel("응답 비율 (%)")
-    ax.text(0.02, 0.97, f"분포 오차(TVD)\n분포 발화 {tvd_d:.3f}\n강제 선택 {tvd_f:.3f}",
+    ax.text(0.02, 0.97, f"분포 오차(TVD) {tvd_d:.3f}",
             transform=ax.transAxes, ha="left", va="top", fontsize=9,
             bbox=dict(boxstyle="round", fc="white", ec="#bbbbbb"))
     ax.spines[["top", "right"]].set_visible(False)
 
-fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=3, frameon=False, fontsize=10)
+fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=2, frameon=False, fontsize=10)
 fig.suptitle("EXP-010 한국장 — 실제 사람 vs 가상 시민 응답 분포 (인구정보 페르소나 300명, A형 문구, gpt-4o-mini)",
              fontsize=13)
 fig.tight_layout(rect=(0, 0.07, 1, 0.94))
