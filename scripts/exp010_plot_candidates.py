@@ -99,7 +99,8 @@ TINT = {POS: "#aac9ee", NEG: "#f2a7a6", NEU: "#e6e5e1"}  # 실제 분포용 옅�
 # ── A. 100% 누적 가로 막대 ──
 def cand_A():
     fig = frame("실제 사람과 이데아 가상 시민의 응답 분포", SUB)
-    gs = fig.add_gridspec(3, 1, left=0.2, right=0.96, top=0.78, bottom=0.07, hspace=0.85)
+    gs = fig.add_gridspec(3, 1, left=0.2, right=0.96, top=0.76, bottom=0.07, hspace=1.2)
+    axes_A = []
     for i, d in enumerate(DATA):
         ax = fig.add_subplot(gs[i])
         style(ax)
@@ -117,6 +118,7 @@ def cand_A():
                             fontsize=FS["val"], fontweight="semibold", color=tc)
                 left += v
         ax.set_yticks([0, 1], ["실제 사람", "이데아 가상 시민"], fontsize=FS["tick"])
+        ax.tick_params(axis="y", pad=16)
         real_lab, idea_lab = ax.get_yticklabels()
         real_lab.set_color(INK2)
         idea_lab.set_color(INK)
@@ -126,19 +128,25 @@ def cand_A():
         ax.set_xticks([])
         ax.spines["bottom"].set_visible(False)
         ax.set_title(f"{d['title']}   ", loc="left", fontsize=FS["title"], fontweight="bold",
-                     color=INK, pad=34, x=-0.17)
-        ax.text(1.0, 1.22, f"분포 차이 {gap(d):.1f}%p", transform=ax.transAxes, ha="right",
-                fontsize=FS["tick"], fontweight="semibold", color=INK)
-        # 범례(선택지): 제목 아래 한 줄
+                     color=INK, pad=50, x=-0.17)
+        ax.text(1.0, 1.36, f"분포 차이 {gap(d):.1f}%p", transform=ax.transAxes, ha="right",
+                va="bottom", fontsize=FS["tick"], fontweight="semibold", color=INK)
+        # 범례(선택지): 제목 아래 한 줄, 막대와 간격 확보
         xpos = 0.0
         for k in d["keys"]:
-            ax.add_patch(plt.Rectangle((xpos, 1.07), 0.014, 0.09, transform=ax.transAxes,
+            ax.add_patch(plt.Rectangle((xpos, 1.15), 0.014, 0.09, transform=ax.transAxes,
                                        color=d["colors"][k], clip_on=False))
-            ax.text(xpos + 0.02, 1.115, d["names"][k], transform=ax.transAxes, va="center",
+            ax.text(xpos + 0.02, 1.195, d["names"][k], transform=ax.transAxes, va="center",
                     fontsize=FS["tick"] - 1, color=INK2)
             xpos += 0.03 + 0.0125 * len(d["names"][k]) + 0.02
-        ax.text(-0.17, 1.22, f"출처: {d['src']}", transform=ax.transAxes, ha="left", va="bottom",
-                fontsize=FS["tick"] - 2, color=INK2, alpha=0)  # 자리 확보용(표시 안 함)
+        axes_A.append(ax)
+    # 질문 사이 구분선: 위 판 아래끝과 아래 판 제목 윗끝의 중간
+    for upper, lower in zip(axes_A, axes_A[1:]):
+        ub, lb = upper.get_position(), lower.get_position()
+        title_top = lb.y1 + lb.height * 0.62
+        y = (ub.y0 + title_top) / 2
+        fig.add_artist(plt.Line2D([0.05, 0.96], [y, y], transform=fig.transFigure,
+                                  color="#d6d5d0", linewidth=1.4))
     fig.text(0.02, 0.015, "실제 분포 출처: 한국리서치 웹 조사(총선 구도), 한국종합사회조사 2023·2018",
              fontsize=FS["tick"] - 3, color=INK2)
     fig.savefig(D10 / "fig_cand_A_stacked.png", dpi=DPI, facecolor=SURF)
