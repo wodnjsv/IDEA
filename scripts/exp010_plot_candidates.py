@@ -34,7 +34,7 @@ df, _ = pyreadstat.read_sav(str(resolve("kgss_cum_2003_2025")))
 num = df.apply(pd.to_numeric, errors="coerce").where(lambda x: x >= 0)
 
 # ── 색 (dataviz 기준 팔레트, 검증 통과) ──
-SURF, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
+SURF, INK, INK2, GRID = "#ffffff", "#0b0b0b", "#52514e", "#e4e3df"
 REAL_C, IDEA_C = "#52514e", "#2a78d6"            # 두 계열 정체성
 POS, NEU, NEG = "#2a78d6", "#c9c8c3", "#e34948"  # 발산: 파랑 ↔ 회색 중립 ↔ 빨강
 Q_COLORS = ["#2a78d6", "#eb6834", "#1baf7a"]      # 문항 정체성(산점도, 3슬롯 all-pairs 통과)
