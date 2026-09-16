@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""사업계획서용 시각화 후보 4종 — 실제 사람 vs IDEA 가상 시민 응답 분포 (기존 결과 재표시).
+"""사업계획서용 시각화 후보 4종 — 실제 사람 vs 이데아 가상 시민 응답 분포 (기존 결과 재표시).
 
 A. 100% 누적 가로 막대 (여론조사 보도 표준)
 B. 덤벨 차트 (선택지별 두 값의 간격)
@@ -92,28 +92,38 @@ def style(ax):
     ax.tick_params(colors=INK2, labelsize=FS["tick"], length=0)
 
 
-SUB = "인구 정보 기반 IDEA 가상 시민 300명 · 선택지별 응답 확률을 모아 집단 분포 산출"
+SUB = "인구 정보 기반 이데아 가상 시민 300명 · 선택지별 응답 확률을 모아 집단 분포 산출"
+TINT = {POS: "#aac9ee", NEG: "#f2a7a6", NEU: "#e6e5e1"}  # 실제 분포용 옅은 색(같은 색상, 명도만 올림)
 
 
 # ── A. 100% 누적 가로 막대 ──
 def cand_A():
-    fig = frame("실제 사람과 IDEA 가상 시민의 응답 분포", SUB)
+    fig = frame("실제 사람과 이데아 가상 시민의 응답 분포", SUB)
     gs = fig.add_gridspec(3, 1, left=0.2, right=0.96, top=0.78, bottom=0.07, hspace=0.85)
     for i, d in enumerate(DATA):
         ax = fig.add_subplot(gs[i])
         style(ax)
-        for row, (lab, dist) in enumerate([("실제 사람", d["real"]), ("IDEA 가상 시민", d["idea"])]):
+        for row, dist in enumerate([d["real"], d["idea"]]):
+            is_real = row == 0
             left = 0
             for k in d["keys"]:
                 v = dist[k] * 100
-                ax.barh(row, v, left=left, height=0.62, color=d["colors"][k],
-                        edgecolor=SURF, linewidth=2)
+                base = d["colors"][k]
+                fc = TINT[base] if is_real else base
+                ax.barh(row, v, left=left, height=0.62, color=fc, edgecolor=SURF, linewidth=2)
                 if v >= 6:
-                    tc = INK if d["colors"][k] == NEU else "white"
+                    tc = INK if (is_real or base == NEU) else "white"
                     ax.text(left + v / 2, row, f"{v:.0f}%", ha="center", va="center",
                             fontsize=FS["val"], fontweight="semibold", color=tc)
                 left += v
-        ax.set_yticks([0, 1], ["실제 사람", "IDEA 가상 시민"], fontsize=FS["tick"], color=INK)
+        ax.set_yticks([])
+        # 행 이름: 실제 = 테두리 라벨, 이데아 = 채운 라벨
+        ax.text(-0.012, 0, "실제 사람", transform=ax.get_yaxis_transform(), ha="right", va="center",
+                fontsize=FS["tick"], color=INK2,
+                bbox=dict(boxstyle="round,pad=0.35", fc=SURF, ec="#9a9994", lw=1.4))
+        ax.text(-0.012, 1, "이데아 가상 시민", transform=ax.get_yaxis_transform(), ha="right",
+                va="center", fontsize=FS["tick"], color="white", fontweight="bold",
+                bbox=dict(boxstyle="round,pad=0.35", fc="#1f1f1f", ec="#1f1f1f", lw=1.4))
         ax.invert_yaxis()
         ax.set_xlim(0, 100)
         ax.set_xticks([])
@@ -139,7 +149,7 @@ def cand_A():
 
 # ── B. 덤벨 차트 ──
 def cand_B():
-    fig = frame("선택지별 실제 비율과 IDEA 가상 시민 비율", SUB)
+    fig = frame("선택지별 실제 비율과 이데아 가상 시민 비율", SUB)
     rows, labels, groups = [], [], []
     y = 0
     for d in DATA:
@@ -170,7 +180,7 @@ def cand_B():
         ax.text(1.0, gy - 0.95, f"분포 차이 {gap(d):.1f}%p", transform=ax.get_yaxis_transform(),
                 ha="right", fontsize=FS["tick"], fontweight="semibold", color=INK, va="center")
     ax.scatter([], [], s=260, color=REAL_C, label="실제 사람")
-    ax.scatter([], [], s=260, color=IDEA_C, label="IDEA 가상 시민")
+    ax.scatter([], [], s=260, color=IDEA_C, label="이데아 가상 시민")
     ax.legend(loc="lower right", fontsize=FS["leg"], frameon=False, bbox_to_anchor=(1.0, 1.0), ncol=2,
               handletextpad=0.3, columnspacing=1.5, borderaxespad=0.1)
     fig.savefig(D10 / "fig_cand_B_dumbbell.png", dpi=DPI, facecolor=SURF)
@@ -178,7 +188,7 @@ def cand_B():
 
 # ── C. 차이 막대 ──
 def cand_C():
-    fig = frame("IDEA 가상 시민은 실제보다 몇 %p 높거나 낮았나", SUB)
+    fig = frame("이데아 가상 시민은 실제보다 몇 %p 높거나 낮았나", SUB)
     ax = fig.add_axes([0.3, 0.1, 0.64, 0.72])
     style(ax)
     y, ticks, labels, heads = 0, [], [], []
@@ -210,7 +220,7 @@ def cand_C():
 
 # ── D. 대각선 산점도 ──
 def cand_D():
-    fig = frame("모든 선택지: 실제 비율 대비 IDEA 가상 시민 비율", SUB)
+    fig = frame("모든 선택지: 실제 비율 대비 이데아 가상 시민 비율", SUB)
     ax = fig.add_axes([0.26, 0.08, 0.48, 0.72])
     style(ax)
     ax.spines["left"].set_visible(True)
@@ -240,7 +250,7 @@ def cand_D():
     ax.grid(True, color=GRID)
     ax.set_axisbelow(True)
     ax.set_xlabel("실제 사람 응답 비율", fontsize=FS["tick"], color=INK, labelpad=10)
-    ax.set_ylabel("IDEA 가상 시민 응답 비율", fontsize=FS["tick"], color=INK, labelpad=10)
+    ax.set_ylabel("이데아 가상 시민 응답 비율", fontsize=FS["tick"], color=INK, labelpad=10)
     ax.legend(loc="upper left", fontsize=FS["leg"] - 4, frameon=True, facecolor=SURF, edgecolor=GRID,
               labelspacing=0.9, borderpad=0.8)
     fig.savefig(D10 / "fig_cand_D_scatter.png", dpi=DPI, facecolor=SURF)
