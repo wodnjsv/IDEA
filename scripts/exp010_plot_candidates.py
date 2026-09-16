@@ -116,14 +116,11 @@ def cand_A():
                     ax.text(left + v / 2, row, f"{v:.0f}%", ha="center", va="center",
                             fontsize=FS["val"], fontweight="semibold", color=tc)
                 left += v
-        ax.set_yticks([])
-        # 행 이름: 실제 = 테두리 라벨, 이데아 = 채운 라벨
-        ax.text(-0.012, 0, "실제 사람", transform=ax.get_yaxis_transform(), ha="right", va="center",
-                fontsize=FS["tick"], color=INK2,
-                bbox=dict(boxstyle="round,pad=0.35", fc=SURF, ec="#9a9994", lw=1.4))
-        ax.text(-0.012, 1, "이데아 가상 시민", transform=ax.get_yaxis_transform(), ha="right",
-                va="center", fontsize=FS["tick"], color="white", fontweight="bold",
-                bbox=dict(boxstyle="round,pad=0.35", fc="#1f1f1f", ec="#1f1f1f", lw=1.4))
+        ax.set_yticks([0, 1], ["실제 사람", "이데아 가상 시민"], fontsize=FS["tick"])
+        real_lab, idea_lab = ax.get_yticklabels()
+        real_lab.set_color(INK2)
+        idea_lab.set_color(INK)
+        idea_lab.set_fontweight("bold")
         ax.invert_yaxis()
         ax.set_xlim(0, 100)
         ax.set_xticks([])
