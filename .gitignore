@@ -15,3 +15,6 @@ data/exp*/*_smoke.jsonl
 data/exp*/*_smoke.log
 data/exp*/*_done.txt
 data/exp*/*_console.txt
+
+# 민심테스트 상세 설문·원시 응답·실행 로그는 로컬 보관
+data/minsim/

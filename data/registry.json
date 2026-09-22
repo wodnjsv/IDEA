@@ -4,32 +4,71 @@
     "census_2020_2pct_person": {
       "path": "raw/2020_2%_표본_인구_20260722_42797.csv",
       "sha256": "4abc928fd9171bb18dc5085d3ca67e0da1287af329c0f8f069f882b6e56e5218",
-      "encoding": "cp949", "rows": 926967, "source": "MDIS 인구주택총조사 2020 2% 표본 인구사항"
+      "encoding": "cp949",
+      "rows": 926967,
+      "source": "MDIS 인구주택총조사 2020 2% 표본 인구사항"
     },
     "census_2020_2pct_household": {
       "path": "raw/2020_2%_표본_가구주택_20260722_19209.csv",
       "sha256": "45d7d1baaf6428de4c12fb508bd1fefbcdc6e1c5180889deb3f7948c4dfee74b",
-      "encoding": "cp949", "rows": 418594, "source": "MDIS 인구주택총조사 2020 2% 표본 가구주택사항"
+      "encoding": "cp949",
+      "rows": 418594,
+      "source": "MDIS 인구주택총조사 2020 2% 표본 가구주택사항"
     },
     "laf_2025h1_a": {
       "path": "raw/2025_상반기(A형_시군구_대분류)(2021~)_20260722_70170.csv",
       "sha256": "bd5a02340acb90ca32e3d14bf1a0e55d7b5c79219241777ce36b1a537ce7783d",
-      "encoding": "cp949", "rows": 403875, "source": "MDIS 지역별고용조사 2025 상반기 A형(시군구·대분류)"
+      "encoding": "cp949",
+      "rows": 403875,
+      "source": "MDIS 지역별고용조사 2025 상반기 A형(시군구·대분류)"
     },
     "sflc_2025_master": {
       "path": "raw/2025_가구마스터_20260722_32595.csv",
       "sha256": "ebe808a09b6f05176531ce3d4434d01d2d70050f982618231db67a96c1f15f1b",
-      "encoding": "cp949", "rows": 18664, "source": "MDIS 가계금융복지조사 2025 가구마스터(공공용)"
+      "encoding": "cp949",
+      "rows": 18664,
+      "source": "MDIS 가계금융복지조사 2025 가구마스터(공공용)"
     },
     "kgss_cum_2003_2025": {
-      "path": "raw/kor_data_CUM0074_V2.sav",
+      "path": "kor_data_CUM0074_V2.sav",
       "sha256": "48c5ca4b4838fc11f4055d8867aafcc94c418359f5de0fecf01ab6b6b4226b95",
-      "format": "spss", "cases": 23282, "source": "KOSSDA 한국종합사회조사 2003-2025 누적자료 V2"
+      "format": "spss",
+      "cases": 23282,
+      "source": "KOSSDA 한국종합사회조사 2003-2025 누적자료 V2"
     },
     "socsci210": {
       "path": "raw/socsci210",
-      "format": "parquet-dir", "rows": 2901390,
+      "format": "parquet-dir",
+      "rows": 2901390,
       "source": "SocSci210 개인응답 실험 코퍼스(스터디 210개, 공개 2025-08) — EXP-009 미국장 소스"
+    },
+    "minsim_original_personas": {
+      "path": "exp009/kr_personas.jsonl",
+      "sha256": "6669573c0cbc11331a8f2cf02c2319b72eadcb5fc40ffa97cd725426db51eb2a"
+    },
+    "minsim_legacy_exclusions": {
+      "path": "exp009_kr_profile_exclude.csv",
+      "sha256": "7a497149e0a9e02ae084fd9f9864aea627c991b7fc737c380f5ba9d92273e19e"
+    },
+    "minsim_six_questions": {
+      "path": "minsim/questions_six_v1.json",
+      "sha256": "1be026c38012895818a22f774f3ace5ad4c02c93325fd6b6b5f5d413f53df16f"
+    },
+    "minsim_full_personas": {
+      "path": "minsim/luna_parent70/personas_full.jsonl",
+      "sha256": "7a467e04fd3d9d5e3fc3945c8ec4000be8a24cf29ec56b1979620045b86ec842"
+    },
+    "minsim_mde_exp009": {
+      "path": "exp009/kr_raw.jsonl",
+      "sha256": "77baa041e0413a30dc49aa6c027b66bd1af48c31db20b13f49d5d79362e49ed6"
+    },
+    "minsim_mde_phase0": {
+      "path": "../phase0/results/raw_responses_full_v2.jsonl",
+      "sha256": "aa3302f7502cf4f906fb15873fcdfa1e9e1503caa524ef0507bbcc9dc5e3a374"
+    },
+    "minsim_income_question": {
+      "path": "minsim/housework_income_v1.json",
+      "sha256": "5a6f599e7c1521e1d53af1a31e077c6bdda67de6839bea09bc4ffb655b020401"
     }
   }
 }
