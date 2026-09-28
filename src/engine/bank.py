@@ -3,10 +3,13 @@
 AUDIT-2026-07-23 반영:
 - weight_bank(사후층화 가중치) 신설 — 인구가중값 재가중은 이중가중 편향(감사 H). 집계는 weight_bank로.
 - NaN 진리값 가드(감사 D), 급여표 성인 필터(감사 C — tables.py), --ideology 게이트(ISS-010 강제).
+AUDIT-2026-09-23-ISS033 반영: 통근 라벨 코드집 39·40·41 정정(v1 오역) — 원자료 재빌드는 A2(타시도 목적지 포함).
+v1 파일은 보존. A1(v1 역변환 재라벨)은 scripts/relabel_bank_commute.py.
 
 ⚠️ 이념(ideology) 라벨은 ISS-010 인간 검증 게이트 통과 전 '개발용'(mode=dev) — 프로덕션 런은 --ideology off.
 """
 import json
+import platform
 
 import numpy as np
 import pandas as pd
@@ -18,8 +21,10 @@ from .tables import build_belief_table, build_income_table, build_wage_table
 CENSUS_P_COLS = ["가구일련번호", "행정구역시도코드", "행정구역시군구코드", "성별코드", "만연령",
                  "교육정도코드", "혼인상태코드", "경제활동상태코드", "종사상지위코드",
                  "산업대분류코드", "직업대분류코드", "통근통학구분코드", "통근통학장소코드",
-                 "통근통학_소요분수", "인구가중값"]
+                 "통근통학_타시도행정구역코드", "통근통학_소요분수", "인구가중값"]
 CENSUS_H_COLS = ["가구일련번호", "점유형태코드", "거처종류코드", "세대유형코드", "가구가중값"]
+# 재생성 재현성 추적 (ISS-039) — 같은 seed라도 numpy/pandas 버전이 다르면 표집이 달라질 수 있다
+LIB_VERSIONS = {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__}
 
 
 def _s(v) -> str:
@@ -121,7 +126,11 @@ def allocate_with_floor(pop_w: pd.Series, n: int, floor: int) -> pd.Series:
 
 
 def build_bank(track: str, n: int, seed: int, pool, W, I, K,
-               floor: int = 0, full_pool: bool = False, ideology: str = "dev", tag: str = "v0"):
+               floor: int = 0, full_pool: bool = False, ideology: str = "dev", tag: str = "v0",
+               id_tag: str = None):
+    """id_tag: persona_id에 넣을 태그(기본=tag). persona_id는 선택지 순서 난수 키로도 쓰이므로
+    (prompts_t3.persona_order), 기존 뱅크와 paired로 비교할 재빌드는 id_tag를 원 뱅크 태그로 고정한다(ISS-033)."""
+    id_tag = id_tag or tag
     rng = np.random.default_rng(seed)
     pop_share = None
     if track == "gwangmyeong":
@@ -169,16 +178,10 @@ def build_bank(track: str, n: int, seed: int, pool, W, I, K,
             sk["econ_label"] = "일을 하고 있지 않습니다"
         else:
             sk["econ_label"] = None
-        # 통근 라벨 — NaN 가드 (감사 D)
-        sk["commute_label"] = None
-        if _s(row["통근통학구분코드"]) == "1":
-            place_c, mins = _s(row["통근통학장소코드"]), _s(row["통근통학_소요분수"])
-            if place_c:
-                place = H.COMMUTE_PLACE.get(place_c, "")
-                if mins:
-                    sk["commute_label"] = f"직장은 {place}에 있고 통근에 약 {int(float(mins))}분 걸립니다."
-                elif place:
-                    sk["commute_label"] = f"직장은 {place}에 있습니다."
+        # 통근 라벨 — NaN 가드 (감사 D) + 코드집 39·40·41 정정 (ISS-033). rng 미사용 → v1과 추첨 흐름 동일
+        sk["commute_label"] = H.commute_label(
+            _s(row["통근통학구분코드"]), _s(row["통근통학장소코드"]),
+            _s(row["통근통학_타시도행정구역코드"]), _s(row["통근통학_소요분수"]), sk["sido"])
 
         drawn = {}
         if _s(row["종사상지위코드"]) == "1":
@@ -200,7 +203,7 @@ def build_bank(track: str, n: int, seed: int, pool, W, I, K,
             drawn["ideology_label"] = None
 
         personas.append({
-            "persona_id": f"{track[:2].upper()}-{tag}-{seed}-{i:05d}",
+            "persona_id": f"{track[:2].upper()}-{id_tag}-{seed}-{i:05d}",
             "track": track,
             "skeleton": {
                 "sido": sk["sido"], "sido_name": H.SIDO_NAME[sk["sido"]], "sigungu": sk["sgg"],
@@ -216,7 +219,8 @@ def build_bank(track: str, n: int, seed: int, pool, W, I, K,
             "card": render_card(sk, drawn),
             "provenance": {"census": "2020_2pct", "wage": "LAF_2025H1_A", "income": "SFLC_2025",
                            "kgss": "CUM0074_V2_recent3" if ideology == "dev" else None,
-                           "seed": seed, "tag": tag, "floor": floor, "full_pool": full_pool,
+                           "seed": seed, "tag": tag, "id_tag": id_tag, "floor": floor, "full_pool": full_pool,
+                           "commute_rule": H.COMMUTE_RULE, "libs": LIB_VERSIONS,
                            "ideology_gate": ("ISS-010 인간검증 전 — 개발용" if ideology == "dev" else "미포함(off)")},
         })
     return personas, picked, fallback_stats
